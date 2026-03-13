@@ -1,38 +1,59 @@
 # CondoFlow
 
-Plataforma full stack mobile de gestão de manutenção condominial.
+Plataforma full stack mobile de gestao de manutencao condominial.
 
----
-
-## 🚀 Stack Tecnológica
-- React Native (Mobile)
-- Java + Spring Boot (Backend)
+## Stack tecnologica
+- React Native (mobile)
+- Java + Spring Boot (backend)
 - Spring Security + JWT
 - JPA / Hibernate
 - MySQL
 
----
+## Objetivo
+Centralizar, organizar e rastrear processos de manutencao condominial, trazendo transparencia e controle operacional.
 
-## 🎯 Objetivo
-Centralizar, organizar e rastrear processos de manutenção condominial, trazendo transparência e controle operacional.
+## Arquitetura inicial
 
----
-
-## 🏗️ Arquitetura Inicial
-
-### Backend estruturado em camadas:
+### Backend (planejado)
 - Controller
 - Service
 - Repository
 - DTO
 
-### Mobile estruturado em:
+### Mobile (implementado em `mobile/`)
 - Screens
 - Components
 - Services (API)
 - Context / State
 
----
+## Estrutura do projeto
+```text
+CondoFlow/
+  README.md
+  mobile/
+    App.tsx
+    src/
+      components/
+      context/
+      screens/
+      services/
+      types/
+```
 
-## 📌 Status
+## Como rodar o mobile
+1. Entre na pasta:
+   - `cd mobile`
+2. Inicie o Expo:
+   - `npm start`
+3. Execute em cada ambiente:
+   - Android: `npm run android`
+   - iOS (macOS): `npm run ios`
+   - Web: `npm run web`
+
+## Integracao com backend Spring
+- O app usa `EXPO_PUBLIC_API_URL` quando definida.
+- Fallback atual: `http://10.0.2.2:8080/api` (emulador Android).
+- Endpoint esperado para lista inicial: `GET /manutencoes`.
+
+## Status
 Em desenvolvimento (fase de modelagem e arquitetura).
