@@ -3,22 +3,50 @@ import { useState } from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { MaintenanceProvider } from "./src/context/MaintenanceContext";
 import { DashboardScreen } from "./src/screens/DashboardScreen";
+import { LoginScreen } from "./src/screens/LoginScreen";
 import { MaintenanceListScreen } from "./src/screens/MaintenanceListScreen";
+import { ResidentScreen } from "./src/screens/ResidentScreen";
+import { ResetPasswordScreen } from "./src/screens/ResetPasswordScreen";
 import { SplashScreen } from "./src/screens/SplashScreen";
 
-type AppScreen = "splash" | "dashboard" | "list";
+type AppScreen =
+  | "splash"
+  | "login"
+  | "resetPassword"
+  | "resident"
+  | "dashboard"
+  | "list";
 
 export default function App() {
   const [screen, setScreen] = useState<AppScreen>("splash");
-  const isSplash = screen === "splash";
+  const isAuthScreen =
+    screen === "splash" || screen === "login" || screen === "resetPassword";
+  const statusBarStyle = isAuthScreen ? "light" : "dark";
 
   const renderScreen = () => {
     if (screen === "splash") {
-      return <SplashScreen onEnter={() => setScreen("dashboard")} />;
+      return <SplashScreen onEnter={() => setScreen("login")} />;
+    }
+
+    if (screen === "login") {
+      return (
+        <LoginScreen
+          onLogin={() => setScreen("resident")}
+          onForgotPassword={() => setScreen("resetPassword")}
+        />
+      );
+    }
+
+    if (screen === "resetPassword") {
+      return <ResetPasswordScreen onBack={() => setScreen("login")} />;
+    }
+
+    if (screen === "resident") {
+      return <ResidentScreen onOpenRequests={() => setScreen("list")} />;
     }
 
     if (screen === "list") {
-      return <MaintenanceListScreen onGoBack={() => setScreen("dashboard")} />;
+      return <MaintenanceListScreen onGoBack={() => setScreen("resident")} />;
     }
 
     return <DashboardScreen onOpenList={() => setScreen("list")} />;
@@ -26,8 +54,8 @@ export default function App() {
 
   return (
     <MaintenanceProvider>
-      <SafeAreaView style={[styles.safeArea, isSplash && styles.splashArea]}>
-        <StatusBar style="dark" />
+      <SafeAreaView style={[styles.safeArea, isAuthScreen && styles.authArea]}>
+        <StatusBar style={statusBarStyle} />
         {renderScreen()}
       </SafeAreaView>
     </MaintenanceProvider>
@@ -39,7 +67,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f4f6f8",
   },
-  splashArea: {
+  authArea: {
     backgroundColor: "#0f7ead",
   },
 });
