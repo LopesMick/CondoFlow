@@ -1,0 +1,12 @@
+
+> mobile@1.0.0 start
+> expo start
+
+Starting project at C:\Users\micka\.vscode\pizza-rei-app\CondoFlow\mobile
+Starting Metro Bundler
+
+ ERROR  An unknown error occurred while installing React Native DevTools. Details:
+
+spawn EPERM
+Waiting on http://localhost:8081
+Logs for your project will appear below.
