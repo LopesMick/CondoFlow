@@ -1,17 +1,24 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { BRANDING } from "../assets/branding";
+import { BRAND_COLORS, BRANDING } from "../assets/branding";
 
 interface ResidentScreenProps {
   onOpenRequests: () => void;
+  onOpenCalls: () => void;
+  onOpenSyndicCalls: () => void;
+  onOpenVisitorRegistration: () => void;
+  onOpenSupport: () => void;
+  onOpenPackages: () => void;
+  onOpenFinanceResident: () => void;
+  onOpenFinanceSyndic: () => void;
 }
 
 const quickActions = [
-  { title: "Reservas", accent: "#7aa9ff" },
-  { title: "Chamadas", accent: "#5f9bff" },
-  { title: "Financeiro", accent: "#5d94f2" },
-  { title: "Visitantes", accent: "#6aa2ff" },
-  { title: "Encomendas", accent: "#6a98ff" },
-  { title: "Notificacoes", accent: "#5f90f0" },
+  { title: "Reservas", accent: BRAND_COLORS.info },
+  { title: "Chamadas", accent: BRAND_COLORS.primary },
+  { title: "Financeiro", accent: BRAND_COLORS.pending },
+  { title: "Visitantes", accent: BRAND_COLORS.info },
+  { title: "Encomendas", accent: BRAND_COLORS.info },
+  { title: "Ajuda", accent: BRAND_COLORS.accentDark },
 ] as const;
 
 const updates = [
@@ -31,7 +38,42 @@ const updates = [
 
 const bottomTabs = ["Inicio", "Buscar", "Reservas", "Notificacoes", "Perfil"] as const;
 
-export function ResidentScreen({ onOpenRequests }: ResidentScreenProps) {
+export function ResidentScreen({
+  onOpenRequests,
+  onOpenCalls,
+  onOpenSyndicCalls,
+  onOpenVisitorRegistration,
+  onOpenSupport,
+  onOpenPackages,
+  onOpenFinanceResident,
+  onOpenFinanceSyndic,
+}: ResidentScreenProps) {
+  const handleQuickActionPress = (title: (typeof quickActions)[number]["title"]) => {
+    if (title === "Chamadas") {
+      onOpenCalls();
+      return;
+    }
+
+    if (title === "Visitantes") {
+      onOpenVisitorRegistration();
+      return;
+    }
+
+    if (title === "Financeiro") {
+      onOpenFinanceResident();
+      return;
+    }
+
+    if (title === "Encomendas") {
+      onOpenPackages();
+      return;
+    }
+
+    if (title === "Ajuda") {
+      onOpenSupport();
+    }
+  };
+
   return (
     <View style={styles.screen}>
       <View style={styles.headerArea}>
@@ -52,7 +94,7 @@ export function ResidentScreen({ onOpenRequests }: ResidentScreenProps) {
       </View>
 
       <View style={styles.contentCard}>
-        <TouchableOpacity style={styles.highlightCard} onPress={onOpenRequests}>
+        <TouchableOpacity style={styles.highlightCard} onPress={onOpenSyndicCalls}>
           <View style={styles.avatar} />
 
           <View style={styles.highlightTextBlock}>
@@ -70,26 +112,35 @@ export function ResidentScreen({ onOpenRequests }: ResidentScreenProps) {
           <Text style={styles.highlightArrow}>{">"}</Text>
         </TouchableOpacity>
 
-        <View style={styles.actionGrid}>
-          {quickActions.map((action) => {
-            const isRequestAction = action.title === "Chamadas";
+        <View style={styles.quickLinks}>
+          <TouchableOpacity style={styles.quickLinkButton} onPress={onOpenSupport}>
+            <Text style={styles.quickLinkText}>Ajuda e Suporte</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.quickLinkButton} onPress={onOpenRequests}>
+            <Text style={styles.quickLinkText}>Ordens de Manutencao</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.quickLinkButton} onPress={onOpenFinanceResident}>
+            <Text style={styles.quickLinkText}>Financeiro Morador</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.quickLinkButton} onPress={onOpenFinanceSyndic}>
+            <Text style={styles.quickLinkText}>Financeiro Sindico</Text>
+          </TouchableOpacity>
+        </View>
 
-            return (
-              <TouchableOpacity
-                key={action.title}
-                style={styles.actionCard}
-                onPress={isRequestAction ? onOpenRequests : undefined}
-                activeOpacity={0.85}
-              >
-                <View style={[styles.actionIcon, { backgroundColor: action.accent }]}>
-                  <Text style={styles.actionIconText}>
-                    {action.title.slice(0, 1)}
-                  </Text>
-                </View>
-                <Text style={styles.actionLabel}>{action.title}</Text>
-              </TouchableOpacity>
-            );
-          })}
+        <View style={styles.actionGrid}>
+          {quickActions.map((action) => (
+            <TouchableOpacity
+              key={action.title}
+              style={styles.actionCard}
+              onPress={() => handleQuickActionPress(action.title)}
+              activeOpacity={0.85}
+            >
+              <View style={[styles.actionIcon, { backgroundColor: action.accent }]}>
+                <Text style={styles.actionIconText}>{action.title.slice(0, 1)}</Text>
+              </View>
+              <Text style={styles.actionLabel}>{action.title}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
 
         <View style={styles.updatesCard}>
@@ -149,10 +200,10 @@ export function ResidentScreen({ onOpenRequests }: ResidentScreenProps) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#f7ebeb",
+    backgroundColor: BRAND_COLORS.backgroundSoft,
   },
   headerArea: {
-    backgroundColor: "#337eb7",
+    backgroundColor: BRAND_COLORS.primaryLight,
     borderBottomLeftRadius: 34,
     borderBottomRightRadius: 34,
     paddingHorizontal: 22,
@@ -165,13 +216,13 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   greeting: {
-    color: "#ffffff",
+    color: BRAND_COLORS.white,
     fontSize: 23,
     fontWeight: "700",
   },
   condoText: {
     marginTop: 4,
-    color: "#d9ecf8",
+    color: BRAND_COLORS.accentSoft,
     fontSize: 12,
   },
   bellButton: {
@@ -179,7 +230,7 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: "#d8e7f3",
+    borderColor: BRAND_COLORS.accentSoft,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -187,7 +238,7 @@ const styles = StyleSheet.create({
     width: 12,
     height: 10,
     borderWidth: 1.5,
-    borderColor: "#ffffff",
+    borderColor: BRAND_COLORS.white,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     borderBottomLeftRadius: 4,
@@ -212,7 +263,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: -82,
     marginHorizontal: 14,
-    backgroundColor: "#ffffff",
+    backgroundColor: BRAND_COLORS.surface,
     borderTopLeftRadius: 34,
     borderTopRightRadius: 34,
     borderBottomLeftRadius: 28,
@@ -222,7 +273,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   highlightCard: {
-    backgroundColor: "#337eb7",
+    backgroundColor: BRAND_COLORS.primary,
     borderRadius: 26,
     padding: 16,
     flexDirection: "row",
@@ -232,19 +283,19 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 21,
-    backgroundColor: "#f3c6c6",
+    backgroundColor: BRAND_COLORS.accentSoft,
     marginRight: 12,
   },
   highlightTextBlock: {
     flex: 1,
   },
   highlightTitle: {
-    color: "#ffffff",
+    color: BRAND_COLORS.white,
     fontSize: 16,
     fontWeight: "700",
   },
   highlightSubtitle: {
-    color: "#dbeaf5",
+    color: BRAND_COLORS.accentSoft,
     fontSize: 13,
     lineHeight: 19,
     marginTop: 4,
@@ -256,13 +307,32 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   highlightMeta: {
-    color: "#dcebf7",
+    color: BRAND_COLORS.accentSoft,
     fontSize: 11,
   },
   highlightArrow: {
-    color: "#ffffff",
+    color: BRAND_COLORS.white,
     fontSize: 24,
     marginLeft: 10,
+  },
+  quickLinks: {
+    marginTop: 12,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 10,
+  },
+  quickLinkButton: {
+    width: "48%",
+    borderWidth: 1,
+    borderColor: BRAND_COLORS.border,
+    borderRadius: 12,
+    paddingVertical: 10,
+    alignItems: "center",
+  },
+  quickLinkText: {
+    color: BRAND_COLORS.primary,
+    fontSize: 12,
+    fontWeight: "600",
   },
   actionGrid: {
     marginTop: 18,
@@ -282,7 +352,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: "#8cadde",
+    shadowColor: BRAND_COLORS.primary,
     shadowOpacity: 0.2,
     shadowRadius: 6,
     shadowOffset: {
@@ -292,13 +362,13 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   actionIconText: {
-    color: "#ffffff",
+    color: BRAND_COLORS.white,
     fontSize: 24,
     fontWeight: "700",
   },
   actionLabel: {
     marginTop: 8,
-    color: "#0f2438",
+    color: BRAND_COLORS.text,
     fontSize: 13,
     fontWeight: "500",
     textAlign: "center",
@@ -306,9 +376,9 @@ const styles = StyleSheet.create({
   updatesCard: {
     marginTop: 18,
     borderRadius: 18,
-    backgroundColor: "#ffffff",
+    backgroundColor: BRAND_COLORS.surface,
     borderWidth: 1,
-    borderColor: "#edf1f6",
+    borderColor: BRAND_COLORS.borderSoft,
     overflow: "hidden",
   },
   updateRow: {
@@ -319,19 +389,19 @@ const styles = StyleSheet.create({
   },
   updateRowBorder: {
     borderBottomWidth: 1,
-    borderBottomColor: "#edf1f6",
+    borderBottomColor: BRAND_COLORS.borderSoft,
   },
   updateIcon: {
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: "#ebf3ff",
+    backgroundColor: BRAND_COLORS.surfaceSoft,
     alignItems: "center",
     justifyContent: "center",
     marginRight: 10,
   },
   updateIconText: {
-    color: "#5b93f6",
+    color: BRAND_COLORS.info,
     fontSize: 13,
     fontWeight: "700",
   },
@@ -339,13 +409,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   updateCategory: {
-    color: "#0f2438",
+    color: BRAND_COLORS.text,
     fontSize: 14,
     fontWeight: "600",
   },
   updateValue: {
     marginTop: 2,
-    color: "#4c84f2",
+    color: BRAND_COLORS.info,
     fontSize: 12,
     fontWeight: "600",
   },
@@ -354,24 +424,24 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   updateStatus: {
-    color: "#2f84da",
+    color: BRAND_COLORS.primary,
     fontSize: 12,
     fontWeight: "600",
     textAlign: "center",
   },
   updateDetails: {
-    color: "#475467",
+    color: BRAND_COLORS.mutedText,
     fontSize: 11,
     marginRight: 6,
   },
   updateChevron: {
-    color: "#0f2438",
+    color: BRAND_COLORS.text,
     fontSize: 18,
   },
   bottomNav: {
     marginTop: 14,
     borderRadius: 18,
-    backgroundColor: "#fbfbfc",
+    backgroundColor: BRAND_COLORS.background,
     paddingTop: 10,
     paddingBottom: 12,
     paddingHorizontal: 6,
@@ -391,22 +461,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   bottomTabIconActive: {
-    backgroundColor: "#ebf2ff",
+    backgroundColor: BRAND_COLORS.surfaceSoft,
   },
   bottomTabIconText: {
-    color: "#667085",
+    color: BRAND_COLORS.textSubtle,
     fontSize: 14,
     fontWeight: "700",
   },
   bottomTabIconTextActive: {
-    color: "#5d94f2",
+    color: BRAND_COLORS.info,
   },
   bottomTabLabel: {
-    color: "#667085",
+    color: BRAND_COLORS.textSubtle,
     fontSize: 11,
   },
   bottomTabLabelActive: {
-    color: "#5d94f2",
+    color: BRAND_COLORS.info,
     fontWeight: "600",
   },
 });

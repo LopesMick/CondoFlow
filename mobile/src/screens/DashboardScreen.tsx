@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { BRANDING } from "../assets/branding";
+import { BRAND_COLORS, BRANDING } from "../assets/branding";
 import { KpiCard } from "../components/maintenance/KpiCard";
 import { MaintenanceRequestCard } from "../components/maintenance/MaintenanceRequestCard";
 import { useMaintenance } from "../context/MaintenanceContext";
@@ -42,7 +42,7 @@ export function DashboardScreen({ onOpenList }: DashboardScreenProps) {
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
       {isLoading ? (
-        <ActivityIndicator size="large" color="#1d4ed8" />
+        <ActivityIndicator size="large" color={BRAND_COLORS.primary} />
       ) : (
         requests
           .slice(0, 3)
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 16,
     fontSize: 14,
-    color: "#475467",
+    color: BRAND_COLORS.mutedText,
   },
   kpiGrid: {
     flexDirection: "row",
@@ -77,14 +77,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   mainButton: {
-    backgroundColor: "#1d4ed8",
+    backgroundColor: BRAND_COLORS.primary,
     borderRadius: 12,
     paddingVertical: 12,
     alignItems: "center",
     marginVertical: 12,
   },
   mainButtonText: {
-    color: "#ffffff",
+    color: BRAND_COLORS.white,
     fontWeight: "700",
     fontSize: 14,
   },
@@ -95,10 +95,10 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: "700",
-    color: "#101828",
+    color: BRAND_COLORS.text,
   },
   errorText: {
-    color: "#b42318",
+    color: BRAND_COLORS.danger,
     marginBottom: 8,
   },
 });

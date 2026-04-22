@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
+import { BRAND_COLORS } from "../../assets/branding";
 import { SectionCard } from "../common/SectionCard";
 
 type KpiTone = "neutral" | "info" | "warning" | "danger" | "success";
@@ -10,11 +11,11 @@ interface KpiCardProps {
 }
 
 const toneColors: Record<KpiTone, string> = {
-  neutral: "#344054",
-  info: "#1d4ed8",
-  warning: "#b45309",
-  danger: "#b42318",
-  success: "#067647",
+  neutral: BRAND_COLORS.textStrong,
+  info: BRAND_COLORS.info,
+  warning: BRAND_COLORS.warning,
+  danger: BRAND_COLORS.danger,
+  success: BRAND_COLORS.success,
 };
 
 export function KpiCard({ label, value, tone = "neutral" }: KpiCardProps) {
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    color: "#475467",
+    color: BRAND_COLORS.mutedText,
     marginBottom: 8,
     fontWeight: "600",
   },

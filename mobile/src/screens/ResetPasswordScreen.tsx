@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { BRANDING } from "../assets/branding";
+import { BRAND_COLORS } from "../assets/branding";
 
 interface ResetPasswordScreenProps {
   onBack: () => void;
@@ -47,7 +47,7 @@ export function ResetPasswordScreen({ onBack }: ResetPasswordScreenProps) {
             value={email}
             onChangeText={setEmail}
             placeholder="example@example.com"
-            placeholderTextColor="#97a7bd"
+            placeholderTextColor={BRAND_COLORS.textSubtle}
             keyboardType="email-address"
             autoCapitalize="none"
             style={styles.input}
@@ -84,7 +84,7 @@ export function ResetPasswordScreen({ onBack }: ResetPasswordScreenProps) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#2f79b3",
+    backgroundColor: BRAND_COLORS.primaryLight,
   },
   topArea: {
     paddingHorizontal: 24,
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     paddingBottom: 28,
   },
   backText: {
-    color: "#dbe8f5",
+    color: BRAND_COLORS.accentSoft,
     fontSize: 13,
     fontWeight: "500",
   },
@@ -103,14 +103,14 @@ const styles = StyleSheet.create({
   wordmarkText: {
     fontSize: 28,
     fontWeight: "800",
-    color: "#ffffff",
+    color: BRAND_COLORS.white,
   },
   flowText: {
-    color: "#70d6e3",
+    color: BRAND_COLORS.accent,
   },
   card: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: BRAND_COLORS.surface,
     borderTopLeftRadius: 34,
     borderTopRightRadius: 34,
     paddingHorizontal: 18,
@@ -122,14 +122,14 @@ const styles = StyleSheet.create({
     fontSize: 31,
     lineHeight: 36,
     fontWeight: "700",
-    color: "#2f79b3",
+    color: BRAND_COLORS.primary,
     marginBottom: 18,
   },
   description: {
     alignSelf: "flex-start",
     fontSize: 15,
     lineHeight: 22,
-    color: "#566679",
+    color: BRAND_COLORS.mutedText,
     marginBottom: 30,
     maxWidth: 310,
   },
@@ -140,29 +140,29 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 12,
     fontWeight: "700",
-    color: "#1f2937",
+    color: BRAND_COLORS.text,
     marginBottom: 8,
   },
   input: {
     width: "100%",
     height: 44,
     borderRadius: 999,
-    backgroundColor: "#dbe8ff",
+    backgroundColor: BRAND_COLORS.surfaceSoft,
     paddingHorizontal: 16,
     fontSize: 14,
-    color: "#1f2937",
+    color: BRAND_COLORS.text,
   },
   submitButton: {
     width: 132,
     height: 38,
     borderRadius: 999,
-    backgroundColor: "#5b9df8",
+    backgroundColor: BRAND_COLORS.info,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 88,
   },
   submitButtonText: {
-    color: "#ffffff",
+    color: BRAND_COLORS.white,
     fontSize: 20,
     fontWeight: "700",
   },
@@ -170,19 +170,19 @@ const styles = StyleSheet.create({
     width: 132,
     height: 38,
     borderRadius: 999,
-    backgroundColor: "#dbe8ff",
+    backgroundColor: BRAND_COLORS.surfaceSoft,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 14,
   },
   secondaryButtonText: {
-    color: "#35617a",
+    color: BRAND_COLORS.primaryDark,
     fontSize: 20,
     fontWeight: "700",
   },
   socialLabel: {
     fontSize: 11,
-    color: "#8e9bad",
+    color: BRAND_COLORS.textSubtle,
     marginBottom: 12,
   },
   socialRow: {
@@ -195,20 +195,20 @@ const styles = StyleSheet.create({
     height: 34,
     borderRadius: 17,
     borderWidth: 1,
-    borderColor: "#7b98a6",
+    borderColor: BRAND_COLORS.textSubtle,
     alignItems: "center",
     justifyContent: "center",
   },
   socialButtonText: {
-    color: "#4f7180",
+    color: BRAND_COLORS.primaryDark,
     fontSize: 18,
     fontWeight: "700",
   },
   footerText: {
     fontSize: 11,
-    color: "#7f8b97",
+    color: BRAND_COLORS.textSubtle,
   },
   footerLink: {
-    color: "#6aa2ff",
+    color: BRAND_COLORS.info,
   },
 });

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { BRANDING } from "../assets/branding";
+import { BRAND_COLORS, BRANDING } from "../assets/branding";
 import { MaintenanceRequestCard } from "../components/maintenance/MaintenanceRequestCard";
 import { useMaintenance } from "../context/MaintenanceContext";
 import { MaintenanceRequest } from "../types/maintenance";
@@ -42,7 +42,7 @@ export function MaintenanceListScreen({ onGoBack }: MaintenanceListScreenProps) 
 
       {isLoading && requests.length === 0 ? (
         <View style={styles.loader}>
-          <ActivityIndicator size="large" color="#1d4ed8" />
+          <ActivityIndicator size="large" color={BRAND_COLORS.info} />
         </View>
       ) : (
         <FlatList
@@ -73,13 +73,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderBottomWidth: 1,
-    borderBottomColor: "#d9dde3",
-    backgroundColor: "#ffffff",
+    borderBottomColor: BRAND_COLORS.border,
+    backgroundColor: BRAND_COLORS.surface,
   },
   title: {
     fontSize: 16,
     fontWeight: "700",
-    color: "#101828",
+    color: BRAND_COLORS.textStrong,
   },
   titleRow: {
     flexDirection: "row",
@@ -91,17 +91,17 @@ const styles = StyleSheet.create({
     height: 22,
   },
   backText: {
-    color: "#1d4ed8",
+    color: BRAND_COLORS.info,
     fontSize: 14,
     fontWeight: "600",
   },
   refreshText: {
-    color: "#1d4ed8",
+    color: BRAND_COLORS.info,
     fontSize: 14,
     fontWeight: "600",
   },
   errorText: {
-    color: "#b42318",
+    color: BRAND_COLORS.danger,
     paddingHorizontal: 16,
     paddingTop: 10,
   },
@@ -118,6 +118,6 @@ const styles = StyleSheet.create({
   emptyText: {
     textAlign: "center",
     marginTop: 24,
-    color: "#667085",
+    color: BRAND_COLORS.textSubtle,
   },
 });

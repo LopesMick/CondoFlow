@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { BRANDING } from "../assets/branding";
+import { BRAND_COLORS, BRANDING } from "../assets/branding";
 
 interface SplashScreenProps {
   onEnter: () => void;
@@ -45,13 +45,13 @@ export function SplashScreen({ onEnter }: SplashScreenProps) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#0f7ead",
+    backgroundColor: BRAND_COLORS.primaryLight,
     overflow: "hidden",
   },
   circle: {
     position: "absolute",
     borderRadius: 999,
-    backgroundColor: "#8fe7df",
+    backgroundColor: BRAND_COLORS.accentSoft,
     opacity: 0.35,
   },
   topCircleOne: {
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   subtitle: {
     marginTop: 22,
     textAlign: "center",
-    color: "#f1f8ff",
+    color: BRAND_COLORS.textOnPrimary,
     fontWeight: "500",
     fontSize: 16,
     lineHeight: 24,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   quote: {
     marginTop: 20,
     textAlign: "center",
-    color: "#b6d7e7",
+    color: BRAND_COLORS.accentSoft,
     fontSize: 14,
     lineHeight: 21,
   },
@@ -120,13 +120,13 @@ const styles = StyleSheet.create({
     maxWidth: 360,
     borderRadius: 12,
     height: 56,
-    backgroundColor: "#58c3c7",
+    backgroundColor: BRAND_COLORS.accentDark,
     justifyContent: "center",
     alignItems: "center",
   },
   enterButtonText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#eff8ff",
+    color: BRAND_COLORS.white,
   },
 });

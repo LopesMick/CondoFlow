@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
+import { BRAND_COLORS } from "../../assets/branding";
 import {
   MaintenancePriority,
   MaintenanceRequest,
@@ -18,10 +19,10 @@ const statusLabel: Record<MaintenanceStatus, string> = {
 };
 
 const statusColor: Record<MaintenanceStatus, string> = {
-  ABERTA: "#1d4ed8",
-  EM_ANALISE: "#7c3aed",
-  EM_ANDAMENTO: "#b45309",
-  CONCLUIDA: "#067647",
+  ABERTA: BRAND_COLORS.info,
+  EM_ANALISE: BRAND_COLORS.purple,
+  EM_ANDAMENTO: BRAND_COLORS.warning,
+  CONCLUIDA: BRAND_COLORS.success,
 };
 
 const priorityLabel: Record<MaintenancePriority, string> = {
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     fontWeight: "700",
-    color: "#101828",
+    color: BRAND_COLORS.textStrong,
   },
   status: {
     fontSize: 12,
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   },
   description: {
     marginTop: 8,
-    color: "#475467",
+    color: BRAND_COLORS.mutedText,
     fontSize: 14,
     lineHeight: 20,
   },
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
   },
   metaText: {
     flex: 1,
-    color: "#667085",
+    color: BRAND_COLORS.textSubtle,
     fontSize: 12,
   },
 });
