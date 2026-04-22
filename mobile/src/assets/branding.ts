@@ -1,8 +1,27 @@
 export const BRANDING = {
-  shield: require("../../assets/branding/condoflow-shield.png"),
-  wordmark: require("../../assets/branding/condoflow-wordmark.png"),
+  shield: require("../../assets/branding/condoflow-wordmark.png"),
+  wordmark: require("../../assets/branding/condoflow-shield.png"),
   logoTransparent: require("../../assets/branding/condoflow-logo-transparent.png"),
   logoWithBackground: require("../../assets/branding/condoflow-logo-bg.png"),
+} as const;
+
+export const HOME_ICONS = {
+  reservas: require("../../assets/icons/home/home-reservas.png"),
+  chamadas: require("../../assets/icons/home/home-chamadas.png"),
+  financeiro: require("../../assets/icons/home/home-financeiro.png"),
+  visitantes: require("../../assets/icons/home/home-moradores.png"),
+  moradores: require("../../assets/icons/home/home-moradores.png"),
+  encomendas: require("../../assets/icons/home/home-encomendas.png"),
+  notificacoes: require("../../assets/icons/home/home-notificacoes.png"),
+  condominio: require("../../assets/icons/home/home-condominio.png"),
+} as const;
+
+export const BOTTOM_NAV_ICONS = {
+  home: require("../../assets/icons/bottom-nav/nav-home.png"),
+  search: require("../../assets/icons/bottom-nav/nav-search.png"),
+  center: require("../../assets/icons/bottom-nav/nav-center.png"),
+  notifications: require("../../assets/icons/bottom-nav/nav-notifications.png"),
+  profile: require("../../assets/icons/bottom-nav/nav-profile.png"),
 } as const;
 
 // CondoFlow core palette and semantic tokens for consistent UI styling.

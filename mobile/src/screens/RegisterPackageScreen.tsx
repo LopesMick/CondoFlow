@@ -4,41 +4,45 @@ import { BRAND_COLORS } from "../assets/branding";
 import { CondoBottomNav, CondoBottomTab } from "../components/common/CondoBottomNav";
 import { CondoTopHeader } from "../components/common/CondoTopHeader";
 
-interface RegisterVisitorScreenProps {
+interface RegisterPackageScreenProps {
   onGoBack: () => void;
-  onConfirmVisit: () => void;
+  onConfirmPackage: () => void;
   onPressTab?: (tab: CondoBottomTab) => void;
 }
 
-export function RegisterVisitorScreen({
+export function RegisterPackageScreen({
   onGoBack,
-  onConfirmVisit,
+  onConfirmPackage,
   onPressTab,
-}: RegisterVisitorScreenProps) {
-  const [name, setName] = useState("Luccas Bentim");
+}: RegisterPackageScreenProps) {
+  const [resident, setResident] = useState("");
   const [date, setDate] = useState("13/03/2026");
   const [time, setTime] = useState("18:00");
+  const [size, setSize] = useState("");
   const [notes, setNotes] = useState("");
 
   return (
     <View style={styles.screen}>
       <View style={styles.headerArea}>
-        <CondoTopHeader title="Cadastrar Visitantes" onBack={onGoBack} />
+        <CondoTopHeader title={"Registrar\nEncomenda"} onBack={onGoBack} />
       </View>
 
       <View style={styles.panel}>
         <View style={styles.formArea}>
-          <Text style={styles.label}>Apelido do Visitante:</Text>
-          <TextInput
-            value={name}
-            onChangeText={setName}
-            style={styles.field}
-            placeholder="Nome do visitante"
-            placeholderTextColor={BRAND_COLORS.mutedText}
-          />
+          <Text style={styles.label}>Selecionar Morador:</Text>
+          <View style={styles.selectField}>
+            <TextInput
+              value={resident}
+              onChangeText={setResident}
+              style={styles.fieldInput}
+              placeholder="Selecionar morador"
+              placeholderTextColor={BRAND_COLORS.mutedText}
+            />
+            <Text style={styles.arrowIcon}>v</Text>
+          </View>
 
           <Text style={styles.label}>Data:</Text>
-          <View style={styles.fieldWithIcon}>
+          <View style={styles.selectField}>
             <TextInput
               value={date}
               onChangeText={setDate}
@@ -46,18 +50,29 @@ export function RegisterVisitorScreen({
               placeholder="DD/MM/AAAA"
               placeholderTextColor={BRAND_COLORS.mutedText}
             />
-            <View style={styles.fieldIconWrap}>
-              <Text style={styles.fieldIconText}>C</Text>
+            <View style={styles.calendarIconWrap}>
+              <Text style={styles.calendarIcon}>C</Text>
             </View>
           </View>
 
           <Text style={styles.label}>Horário:</Text>
-          <View style={styles.fieldWithIcon}>
+          <View style={styles.simpleField}>
             <TextInput
               value={time}
               onChangeText={setTime}
               style={styles.fieldInput}
               placeholder="00:00"
+              placeholderTextColor={BRAND_COLORS.mutedText}
+            />
+          </View>
+
+          <Text style={styles.label}>Tamanho da Encomenda:</Text>
+          <View style={styles.selectField}>
+            <TextInput
+              value={size}
+              onChangeText={setSize}
+              style={styles.fieldInput}
+              placeholder="Selecionar tamanho"
               placeholderTextColor={BRAND_COLORS.mutedText}
             />
             <Text style={styles.arrowIcon}>v</Text>
@@ -73,8 +88,8 @@ export function RegisterVisitorScreen({
             placeholderTextColor={BRAND_COLORS.info}
           />
 
-          <TouchableOpacity style={styles.confirmButton} onPress={onConfirmVisit}>
-            <Text style={styles.confirmButtonText}>Confirmar Visita!</Text>
+          <TouchableOpacity style={styles.confirmButton} onPress={onConfirmPackage}>
+            <Text style={styles.confirmButtonText}>Confirmar Encomenda</Text>
           </TouchableOpacity>
         </View>
 
@@ -111,16 +126,17 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     marginLeft: 6,
   },
-  field: {
+  simpleField: {
     height: 50,
     borderRadius: 20,
     backgroundColor: BRAND_COLORS.surfaceSoft,
-    paddingHorizontal: 14,
-    color: BRAND_COLORS.mutedText,
-    fontSize: 15,
+    paddingLeft: 14,
+    paddingRight: 12,
     marginBottom: 18,
+    flexDirection: "row",
+    alignItems: "center",
   },
-  fieldWithIcon: {
+  selectField: {
     height: 50,
     borderRadius: 20,
     backgroundColor: BRAND_COLORS.surfaceSoft,
@@ -135,7 +151,7 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.mutedText,
     fontSize: 15,
   },
-  fieldIconWrap: {
+  calendarIconWrap: {
     width: 28,
     height: 28,
     borderRadius: 14,
@@ -143,7 +159,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  fieldIconText: {
+  calendarIcon: {
     color: BRAND_COLORS.white,
     fontSize: 12,
     fontWeight: "700",
@@ -161,14 +177,14 @@ const styles = StyleSheet.create({
     paddingTop: 14,
     color: BRAND_COLORS.text,
     fontSize: 15,
-    marginTop: 22,
+    marginTop: 8,
     marginBottom: 26,
   },
   confirmButton: {
     alignSelf: "center",
-    minWidth: 220,
-    height: 52,
-    borderRadius: 26,
+    minWidth: 228,
+    height: 46,
+    borderRadius: 23,
     backgroundColor: BRAND_COLORS.info,
     alignItems: "center",
     justifyContent: "center",
@@ -176,6 +192,6 @@ const styles = StyleSheet.create({
   confirmButtonText: {
     color: BRAND_COLORS.white,
     fontSize: 17,
-    fontWeight: "700",
+    fontWeight: "600",
   },
 });

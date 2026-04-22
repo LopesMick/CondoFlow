@@ -10,10 +10,10 @@ interface ContactScreenProps {
 }
 
 const contactItems = [
-  { label: "E-Mail", icon: "@" },
-  { label: "Website", icon: "W" },
+  { label: "E-mail", icon: "@" },
+  { label: "Site", icon: "W" },
   { label: "Facebook", icon: "f" },
-  { label: "Whatsapp", icon: "w" },
+  { label: "WhatsApp", icon: "w" },
   { label: "Instagram", icon: "i" },
 ] as const;
 
@@ -21,12 +21,12 @@ export function ContactScreen({ onGoBack, onOpenFaq, onPressTab }: ContactScreen
   return (
     <View style={styles.screen}>
       <View style={styles.headerArea}>
-        <CondoTopHeader title="Help & FAQs" onBack={onGoBack} />
+        <CondoTopHeader title="Ajuda e FAQs" onBack={onGoBack} />
       </View>
 
       <View style={styles.panel}>
         <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
-          <Text style={styles.mainTitle}>Como Podemos Ajudar??</Text>
+          <Text style={styles.mainTitle}>Como podemos ajudar?</Text>
 
           <View style={styles.segmentWrap}>
             <TouchableOpacity style={styles.segmentButton} onPress={onOpenFaq}>

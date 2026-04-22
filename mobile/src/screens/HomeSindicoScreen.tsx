@@ -1,45 +1,55 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { BRAND_COLORS, BRANDING } from "../assets/branding";
+import { Image, ImageSourcePropType, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { BRAND_COLORS, HOME_ICONS } from "../assets/branding";
+import { CondoBrandLockup } from "../components/common/CondoBrandLockup";
 import { CondoBottomNav, CondoBottomTab } from "../components/common/CondoBottomNav";
 
 interface HomeSindicoScreenProps {
+  onOpenReservations: () => void;
   onOpenCalls: () => void;
+  onOpenNewNotice: () => void;
   onOpenVisitorRegistration: () => void;
   onOpenPackages: () => void;
   onOpenFinance: () => void;
   onOpenNotifications: () => void;
-  onOpenPorteiroHome: () => void;
+  onOpenResidentListingSyndic: () => void;
   onOpenMoradorHome: () => void;
   onPressTab?: (tab: CondoBottomTab) => void;
 }
 
 const actions = [
-  { key: "reservas", label: "Reservas", icon: "RS" },
-  { key: "chamadas", label: "Chamadas", icon: "CH" },
-  { key: "financeiro", label: "Financeiro", icon: "$" },
-  { key: "visitantes", label: "Visitantes", icon: "VS" },
-  { key: "encomendas", label: "Encomendas", icon: "EN" },
-  { key: "notificacoes", label: "Notificacoes", icon: "NT", badge: 3 },
-  { key: "moradores", label: "Moradores", icon: "MR" },
-  { key: "condominio", label: "Condominio", icon: "CD" },
+  { key: "reservas", label: "Reservas", iconSource: HOME_ICONS.reservas },
+  { key: "chamadas", label: "Chamadas", iconSource: HOME_ICONS.chamadas },
+  { key: "financeiro", label: "Financeiro", iconSource: HOME_ICONS.financeiro },
+  { key: "visitantes", label: "Visitantes", iconSource: HOME_ICONS.visitantes },
+  { key: "encomendas", label: "Encomendas", iconSource: HOME_ICONS.encomendas },
+  { key: "notificacoes", label: "Notificações", iconSource: HOME_ICONS.notificacoes, badge: 3 },
+  { key: "moradores", label: "Moradores", iconSource: HOME_ICONS.moradores },
+  { key: "condominio", label: "Condomínio", iconSource: HOME_ICONS.condominio },
 ] as const satisfies ReadonlyArray<{
   key: string;
   label: string;
-  icon: string;
+  iconSource: ImageSourcePropType;
   badge?: number;
 }>;
 
 export function HomeSindicoScreen({
+  onOpenReservations,
   onOpenCalls,
+  onOpenNewNotice,
   onOpenVisitorRegistration,
   onOpenPackages,
   onOpenFinance,
   onOpenNotifications,
-  onOpenPorteiroHome,
+  onOpenResidentListingSyndic,
   onOpenMoradorHome,
   onPressTab,
 }: HomeSindicoScreenProps) {
   const onPressAction = (key: (typeof actions)[number]["key"]) => {
+    if (key === "reservas") {
+      onOpenReservations();
+      return;
+    }
+
     if (key === "chamadas") {
       onOpenCalls();
       return;
@@ -66,7 +76,7 @@ export function HomeSindicoScreen({
     }
 
     if (key === "moradores") {
-      onOpenPorteiroHome();
+      onOpenResidentListingSyndic();
       return;
     }
 
@@ -80,23 +90,24 @@ export function HomeSindicoScreen({
       <View style={styles.headerArea}>
         <View style={styles.topRow}>
           <View>
-            <Text style={styles.greeting}>Hello, Sindico Mickael!</Text>
-            <Text style={styles.condoText}>Condominio Nova Luz | Apto 407 - Bloco B</Text>
+            <Text style={styles.greeting}>Olá, Síndico Mickael!</Text>
+            <Text style={styles.condoText}>Condomínio Nova Luz | Apto 407 - Bloco B</Text>
           </View>
           <View style={styles.bellButton}>
             <View style={styles.bellShape} />
           </View>
         </View>
 
-        <View style={styles.brandRow}>
-          <Image source={BRANDING.shield} style={styles.shieldLogo} resizeMode="contain" />
-          <Image source={BRANDING.wordmark} style={styles.wordmark} resizeMode="contain" />
-        </View>
+        <CondoBrandLockup size="home" style={styles.brandRow} />
       </View>
 
       <View style={styles.panel}>
         <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
-          <TouchableOpacity style={styles.highlightCard} activeOpacity={0.88}>
+          <TouchableOpacity
+            style={styles.highlightCard}
+            activeOpacity={0.88}
+            onPress={onOpenNewNotice}
+          >
             <View style={styles.avatar}>
               <Text style={styles.avatarText}>SM</Text>
             </View>
@@ -104,7 +115,7 @@ export function HomeSindicoScreen({
             <View style={styles.highlightTextBlock}>
               <Text style={styles.highlightTitle}>Criar novo comunicado!</Text>
               <Text style={styles.highlightSubtitle}>
-                Clique aqui para gerar um novo aviso no mural de moradores de seu condominio....
+                Clique aqui para gerar um novo aviso no mural de moradores do seu condomínio....
               </Text>
               <View style={styles.highlightDivider} />
             </View>
@@ -129,7 +140,7 @@ export function HomeSindicoScreen({
                         <Text style={styles.badgeText}>{badge}</Text>
                       </View>
                     ) : null}
-                    <Text style={styles.actionIconText}>{action.icon}</Text>
+                    <Image source={action.iconSource} style={styles.actionIconImage} resizeMode="contain" />
                   </View>
                   <Text style={styles.actionLabel}>{action.label}</Text>
                 </TouchableOpacity>
@@ -190,19 +201,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 4,
   },
   brandRow: {
-    marginTop: 20,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 10,
-  },
-  shieldLogo: {
-    width: 64,
-    height: 68,
-  },
-  wordmark: {
-    width: 180,
-    height: 56,
+    marginTop: 16,
+    alignSelf: "center",
   },
   panel: {
     flex: 1,
@@ -301,10 +301,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "700",
   },
-  actionIconText: {
-    color: BRAND_COLORS.white,
-    fontSize: 18,
-    fontWeight: "700",
+  actionIconImage: {
+    width: "46%",
+    height: "46%",
+    tintColor: BRAND_COLORS.white,
   },
   actionLabel: {
     marginTop: 8,
@@ -314,3 +314,4 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+

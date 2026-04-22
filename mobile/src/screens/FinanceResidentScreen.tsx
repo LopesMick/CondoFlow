@@ -21,7 +21,7 @@ interface BillItem {
 const billItems: BillItem[] = [
   {
     id: "mar",
-    month: "Marco",
+    month: "Março",
     date: "Pendente",
     status: "A Vencer",
     statusTone: "pending",
@@ -112,7 +112,7 @@ function BillRow({ item }: { item: BillItem }) {
       </View>
 
       <View style={styles.billMain}>
-        <Text style={styles.billTitle}>Condominio</Text>
+        <Text style={styles.billTitle}>Condomínio</Text>
         <Text style={styles.billDate}>{item.date}</Text>
       </View>
 

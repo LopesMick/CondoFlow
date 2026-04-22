@@ -77,7 +77,7 @@ export function PackagesScreen({
         </TouchableOpacity>
 
         <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
-          <Text style={styles.monthTitle}>Marco</Text>
+          <Text style={styles.monthTitle}>Março</Text>
           {marchItems.map((item) => (
             <PackageRow
               key={item.id}

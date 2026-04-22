@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  Image,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -10,7 +9,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { BRAND_COLORS, BRANDING } from "../assets/branding";
+import { BRAND_COLORS } from "../assets/branding";
+import { CondoBrandLockup } from "../components/common/CondoBrandLockup";
 
 interface LoginScreenProps {
   onLogin: (role: "morador" | "porteiro" | "sindico") => void;
@@ -44,20 +44,9 @@ export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
       <View style={[styles.circle, styles.topCircleSmall]} />
 
       <View style={styles.content}>
-        <Text style={styles.welcome}>Welcome back!</Text>
+        <Text style={styles.welcome}>Bem-vindo de volta!</Text>
 
-        <View style={styles.brandRow}>
-          <Image
-            source={BRANDING.shield}
-            style={styles.shieldLogo}
-            resizeMode="contain"
-          />
-          <Image
-            source={BRANDING.wordmark}
-            style={styles.wordmark}
-            resizeMode="contain"
-          />
-        </View>
+        <CondoBrandLockup size="login" style={styles.brandRow} />
 
         <View style={styles.form}>
           <TextInput
@@ -90,7 +79,7 @@ export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
             <Text style={styles.loginButtonText}>Login</Text>
           </TouchableOpacity>
 
-          <Text style={styles.socialLabel}>or sign up with</Text>
+          <Text style={styles.socialLabel}>ou cadastre-se com</Text>
 
           <View style={styles.socialRow}>
             <Pressable style={styles.socialButton}>
@@ -102,7 +91,7 @@ export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
           </View>
 
           <Text style={styles.signUpText}>
-            Ainda nao tem cadastro?{" "}
+            Ainda não tem cadastro?{" "}
             <Text style={styles.signUpLink}>Cadastre-se</Text>
           </Text>
         </View>
@@ -150,18 +139,8 @@ const styles = StyleSheet.create({
     marginBottom: 34,
   },
   brandRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
     marginBottom: 42,
-  },
-  shieldLogo: {
-    width: 54,
-    height: 58,
-  },
-  wordmark: {
-    width: 160,
-    height: 42,
+    alignSelf: "center",
   },
   form: {
     width: "100%",

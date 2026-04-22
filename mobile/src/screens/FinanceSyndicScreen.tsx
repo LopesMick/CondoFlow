@@ -5,6 +5,7 @@ import { CondoTopHeader } from "../components/common/CondoTopHeader";
 
 interface FinanceSyndicScreenProps {
   onGoBack: () => void;
+  onOpenDefaultResidentDetails?: () => void;
   onPressTab?: (tab: CondoBottomTab) => void;
 }
 
@@ -20,14 +21,14 @@ const compliantResidents: ResidentStatusItem[] = [
   {
     name: "Roberta Alves",
     unit: "Apto 305 - Bloco C",
-    status: "Sem Pendencias",
+    status: "Sem Pendências",
     tone: "success",
     avatarLetter: "R",
   },
   {
     name: "Brenno Lacerda",
     unit: "Apto 211 - Bloco A",
-    status: "Sem Pendencias",
+    status: "Sem Pendências",
     tone: "success",
     avatarLetter: "B",
   },
@@ -37,38 +38,42 @@ const defaultResidents: ResidentStatusItem[] = [
   {
     name: "Milena Gomes",
     unit: "Apto 502 - Bloco D",
-    status: "1 Pendencia",
+    status: "1 Pendência",
     tone: "danger",
     avatarLetter: "M",
   },
   {
     name: "Marcio Silva",
     unit: "Apto 308 - Bloco A",
-    status: "3 Pendencia",
+    status: "3 Pendências",
     tone: "danger",
     avatarLetter: "M",
   },
   {
     name: "Larissa Santos",
     unit: "Apto 603 - Bloco B",
-    status: "5 Pendencia",
+    status: "5 Pendências",
     tone: "danger",
     avatarLetter: "L",
   },
 ];
 
-export function FinanceSyndicScreen({ onGoBack, onPressTab }: FinanceSyndicScreenProps) {
+export function FinanceSyndicScreen({
+  onGoBack,
+  onOpenDefaultResidentDetails,
+  onPressTab,
+}: FinanceSyndicScreenProps) {
   return (
     <View style={styles.screen}>
       <View style={styles.headerArea}>
-        <CondoTopHeader title="Financeiro - Sindico" onBack={onGoBack} />
+        <CondoTopHeader title="Financeiro - Síndico" onBack={onGoBack} />
       </View>
 
       <View style={styles.panel}>
         <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
           <Text style={styles.filterLabel}>Filtrar:</Text>
           <TouchableOpacity style={styles.selectField}>
-            <Text style={styles.selectPlaceholder}>Filtrar Opcoes</Text>
+            <Text style={styles.selectPlaceholder}>Filtrar opções</Text>
             <Text style={styles.selectArrow}>v</Text>
           </TouchableOpacity>
 
@@ -87,6 +92,7 @@ export function FinanceSyndicScreen({ onGoBack, onPressTab }: FinanceSyndicScree
               key={`${item.name}-${item.unit}`}
               item={item}
               showDetails
+              onPress={onOpenDefaultResidentDetails}
             />
           ))}
         </ScrollView>
@@ -100,14 +106,16 @@ export function FinanceSyndicScreen({ onGoBack, onPressTab }: FinanceSyndicScree
 function FinanceResidentRow({
   item,
   showDetails = false,
+  onPress,
 }: {
   item: ResidentStatusItem;
   showDetails?: boolean;
+  onPress?: () => void;
 }) {
   const toneColor = item.tone === "success" ? BRAND_COLORS.success : BRAND_COLORS.danger;
 
   return (
-    <TouchableOpacity style={styles.row} activeOpacity={0.86}>
+    <TouchableOpacity style={styles.row} activeOpacity={0.86} onPress={onPress}>
       <View style={styles.avatar}>
         <Text style={styles.avatarText}>{item.avatarLetter}</Text>
       </View>

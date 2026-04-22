@@ -1,5 +1,6 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { BRAND_COLORS, BRANDING } from "../assets/branding";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { BRAND_COLORS } from "../assets/branding";
+import { CondoBrandLockup } from "../components/common/CondoBrandLockup";
 
 interface SplashScreenProps {
   onEnter: () => void;
@@ -15,22 +16,13 @@ export function SplashScreen({ onEnter }: SplashScreenProps) {
 
       <View style={styles.content}>
         <View style={styles.brandBlock}>
-          <Image
-            source={BRANDING.shield}
-            style={styles.shieldLogo}
-            resizeMode="contain"
-          />
-          <Image
-            source={BRANDING.wordmark}
-            style={styles.wordmark}
-            resizeMode="contain"
-          />
+          <CondoBrandLockup size="splash" orientation="vertical" />
 
           <Text style={styles.subtitle}>
-            Gestao inteligente de{"\n"}manutencao condominial!
+            Gestão inteligente de{"\n"}manutenção condominial!
           </Text>
           <Text style={styles.quote}>
-            "Manutencao sem caos e dor de cabeca..."
+            "Manutenção sem caos e dor de cabeça..."
           </Text>
         </View>
 
@@ -90,15 +82,6 @@ const styles = StyleSheet.create({
   },
   brandBlock: {
     alignItems: "center",
-  },
-  shieldLogo: {
-    width: 124,
-    height: 136,
-  },
-  wordmark: {
-    marginTop: 14,
-    width: 236,
-    height: 74,
   },
   subtitle: {
     marginTop: 22,

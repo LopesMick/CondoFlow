@@ -7,8 +7,8 @@ interface VisitConfirmationScreenProps {
 export function VisitConfirmationScreen({ onExit }: VisitConfirmationScreenProps) {
   return (
     <CondoConfirmationCard
-      title={"Confirmacao De\nVisitantes"}
-      message={"Sua visita recebera nosso\nQR de acesso ao seu\ncondominio!"}
+      title={"Confirmação de\nVisitantes"}
+      message={"Sua visita receberá nosso\nQR de acesso ao seu\ncondomínio!"}
       buttonText="OK, Sair!"
       onConfirm={onExit}
     />

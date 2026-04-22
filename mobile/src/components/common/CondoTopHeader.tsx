@@ -4,9 +4,10 @@ import { BRAND_COLORS } from "../../assets/branding";
 interface CondoTopHeaderProps {
   title: string;
   onBack: () => void;
+  onPressRight?: () => void;
 }
 
-export function CondoTopHeader({ title, onBack }: CondoTopHeaderProps) {
+export function CondoTopHeader({ title, onBack, onPressRight }: CondoTopHeaderProps) {
   return (
     <View style={styles.row}>
       <TouchableOpacity style={styles.backButton} onPress={onBack}>
@@ -15,9 +16,14 @@ export function CondoTopHeader({ title, onBack }: CondoTopHeaderProps) {
 
       <Text style={styles.title}>{title}</Text>
 
-      <View style={styles.bellButton}>
+      <TouchableOpacity
+        style={styles.bellButton}
+        onPress={onPressRight}
+        disabled={!onPressRight}
+        activeOpacity={0.85}
+      >
         <View style={styles.bellBody} />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }

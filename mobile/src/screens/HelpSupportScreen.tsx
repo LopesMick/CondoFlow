@@ -11,14 +11,14 @@ interface HelpSupportScreenProps {
 
 const faqItems = [
   "Como autorizar a entrada de um visitante?",
-  "Como cadastrar um veiculo?",
-  "Como abrir um chamado de manutencao?",
-  "Onde encontro meu boleto do condominio?",
-  "Como reservar areas comuns?",
+  "Como cadastrar um veículo?",
+  "Como abrir um chamado de manutenção?",
+  "Onde encontro meu boleto do condomínio?",
+  "Como reservar áreas comuns?",
   "Como cadastrar um visitante antecipadamente?",
   "Como retirar uma encomenda na portaria?",
-  "O que fazer se encontrar um problema nas areas comuns?",
-  "Como reportar um problema no aplicativo",
+  "O que fazer se encontrar um problema nas áreas comuns?",
+  "Como reportar um problema no aplicativo?",
 ] as const;
 
 export function HelpSupportScreen({
@@ -29,12 +29,12 @@ export function HelpSupportScreen({
   return (
     <View style={styles.screen}>
       <View style={styles.headerArea}>
-        <CondoTopHeader title="Help & FAQs" onBack={onGoBack} />
+        <CondoTopHeader title="Ajuda e FAQs" onBack={onGoBack} />
       </View>
 
       <View style={styles.panel}>
         <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
-          <Text style={styles.mainTitle}>Como Podemos Ajudar??</Text>
+          <Text style={styles.mainTitle}>Como podemos ajudar?</Text>
 
           <View style={styles.segmentWrap}>
             <TouchableOpacity style={[styles.segmentButton, styles.segmentButtonActive]}>

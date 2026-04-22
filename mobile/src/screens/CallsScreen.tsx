@@ -5,6 +5,8 @@ import { CondoTopHeader } from "../components/common/CondoTopHeader";
 
 interface CallsScreenProps {
   onGoBack: () => void;
+  onOpenNewCall?: () => void;
+  onOpenCallDetails?: () => void;
   onPressTab?: (tab: CondoBottomTab) => void;
 }
 
@@ -17,9 +19,9 @@ interface MyCallItem {
 
 const myCalls: MyCallItem[] = [
   {
-    title: "Lampada Queimada",
+    title: "Lâmpada Queimada",
     subtitle: "No Corredor",
-    category: "Manutencao",
+    category: "Manutenção",
     tone: "danger",
   },
   {
@@ -31,12 +33,17 @@ const myCalls: MyCallItem[] = [
   {
     title: "Barulho Alto No",
     subtitle: "Apartamento 302",
-    category: "Reclamacao",
+    category: "Reclamação",
     tone: "warning",
   },
 ];
 
-export function CallsScreen({ onGoBack, onPressTab }: CallsScreenProps) {
+export function CallsScreen({
+  onGoBack,
+  onOpenNewCall,
+  onOpenCallDetails,
+  onPressTab,
+}: CallsScreenProps) {
   return (
     <View style={styles.screen}>
       <View style={styles.headerArea}>
@@ -45,7 +52,7 @@ export function CallsScreen({ onGoBack, onPressTab }: CallsScreenProps) {
 
       <View style={styles.panel}>
         <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
-          <TouchableOpacity style={styles.newCallButton}>
+          <TouchableOpacity style={styles.newCallButton} onPress={onOpenNewCall}>
             <Text style={styles.newCallButtonText}>Criar Uma Nova Chamada</Text>
           </TouchableOpacity>
 
@@ -66,7 +73,11 @@ export function CallsScreen({ onGoBack, onPressTab }: CallsScreenProps) {
           </View>
 
           {myCalls.map((item) => (
-            <CallItemRow key={`${item.title}-${item.category}`} item={item} />
+            <CallItemRow
+              key={`${item.title}-${item.category}`}
+              item={item}
+              onPress={onOpenCallDetails}
+            />
           ))}
         </ScrollView>
 
@@ -76,7 +87,7 @@ export function CallsScreen({ onGoBack, onPressTab }: CallsScreenProps) {
   );
 }
 
-function CallItemRow({ item }: { item: MyCallItem }) {
+function CallItemRow({ item, onPress }: { item: MyCallItem; onPress?: () => void }) {
   const toneColor =
     item.tone === "danger"
       ? BRAND_COLORS.danger
@@ -85,7 +96,7 @@ function CallItemRow({ item }: { item: MyCallItem }) {
         : BRAND_COLORS.info;
 
   return (
-    <TouchableOpacity style={styles.row} activeOpacity={0.86}>
+    <TouchableOpacity style={styles.row} activeOpacity={0.86} onPress={onPress}>
       <View style={styles.callIconWrap}>
         <Text style={styles.callIconText}>C</Text>
       </View>

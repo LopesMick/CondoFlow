@@ -1,5 +1,6 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { BRAND_COLORS, BRANDING } from "../assets/branding";
+import { Image, ImageSourcePropType, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { BRAND_COLORS, HOME_ICONS } from "../assets/branding";
+import { CondoBrandLockup } from "../components/common/CondoBrandLockup";
 import { CondoBottomNav, CondoBottomTab } from "../components/common/CondoBottomNav";
 
 interface HomePorteiroScreenProps {
@@ -7,21 +8,21 @@ interface HomePorteiroScreenProps {
   onOpenVisitorRegistration: () => void;
   onOpenPackages: () => void;
   onOpenNotifications: () => void;
-  onOpenMoradorHome: () => void;
+  onOpenResidentListing: () => void;
   onOpenSyndicHome: () => void;
   onPressTab?: (tab: CondoBottomTab) => void;
 }
 
 const actions = [
-  { key: "visitantes", label: "Visitantes", icon: "VS" },
-  { key: "chamadas", label: "Chamadas", icon: "CH" },
-  { key: "moradores", label: "Moradores", icon: "MR" },
-  { key: "encomendas", label: "Encomendas", icon: "EN" },
-  { key: "notificacoes", label: "Notificacoes", icon: "NT", badge: 3 },
+  { key: "visitantes", label: "Visitantes", iconSource: HOME_ICONS.visitantes },
+  { key: "chamadas", label: "Chamadas", iconSource: HOME_ICONS.chamadas },
+  { key: "moradores", label: "Moradores", iconSource: HOME_ICONS.moradores },
+  { key: "encomendas", label: "Encomendas", iconSource: HOME_ICONS.encomendas },
+  { key: "notificacoes", label: "Notificações", iconSource: HOME_ICONS.notificacoes, badge: 3 },
 ] as const satisfies ReadonlyArray<{
   key: string;
   label: string;
-  icon: string;
+  iconSource: ImageSourcePropType;
   badge?: number;
 }>;
 
@@ -30,7 +31,7 @@ export function HomePorteiroScreen({
   onOpenVisitorRegistration,
   onOpenPackages,
   onOpenNotifications,
-  onOpenMoradorHome,
+  onOpenResidentListing,
   onOpenSyndicHome,
   onPressTab,
 }: HomePorteiroScreenProps) {
@@ -46,7 +47,7 @@ export function HomePorteiroScreen({
     }
 
     if (key === "moradores") {
-      onOpenMoradorHome();
+      onOpenResidentListing();
       return;
     }
 
@@ -65,9 +66,9 @@ export function HomePorteiroScreen({
       <View style={styles.headerArea}>
         <View style={styles.topRow}>
           <View>
-            <Text style={styles.greeting}>Hello, Porteiro Breno Lacerda!</Text>
+            <Text style={styles.greeting}>Olá, Porteiro Breno Lacerda!</Text>
             <Text style={styles.condoText}>
-              Condominio Nova Luz | Funcionario do Condominio
+              Condomínio Nova Luz | Funcionário do Condomínio
             </Text>
           </View>
           <View style={styles.bellButton}>
@@ -75,10 +76,7 @@ export function HomePorteiroScreen({
           </View>
         </View>
 
-        <View style={styles.brandRow}>
-          <Image source={BRANDING.shield} style={styles.shieldLogo} resizeMode="contain" />
-          <Image source={BRANDING.wordmark} style={styles.wordmark} resizeMode="contain" />
-        </View>
+        <CondoBrandLockup size="home" style={styles.brandRow} />
       </View>
 
       <View style={styles.panel}>
@@ -89,13 +87,13 @@ export function HomePorteiroScreen({
             </View>
 
             <View style={styles.highlightTextBlock}>
-              <Text style={styles.highlightTitle}>Sindico Mickael</Text>
+              <Text style={styles.highlightTitle}>Síndico Mickael</Text>
               <Text style={styles.highlightSubtitle}>
-                Elevador de servico em manutencao
+                Elevador de serviço em manutenção
               </Text>
               <View style={styles.highlightDivider} />
               <View style={styles.highlightFooter}>
-                <Text style={styles.highlightMeta}>D 13 de Marco</Text>
+                <Text style={styles.highlightMeta}>13 de Março</Text>
                 <Text style={styles.highlightMeta}>T 11:00 - 12:00 AM</Text>
               </View>
             </View>
@@ -120,7 +118,7 @@ export function HomePorteiroScreen({
                         <Text style={styles.badgeText}>{badge}</Text>
                       </View>
                     ) : null}
-                    <Text style={styles.actionIconText}>{action.icon}</Text>
+                    <Image source={action.iconSource} style={styles.actionIconImage} resizeMode="contain" />
                   </View>
                   <Text style={styles.actionLabel}>{action.label}</Text>
                 </TouchableOpacity>
@@ -181,19 +179,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 4,
   },
   brandRow: {
-    marginTop: 20,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 10,
-  },
-  shieldLogo: {
-    width: 64,
-    height: 68,
-  },
-  wordmark: {
-    width: 180,
-    height: 56,
+    marginTop: 16,
+    alignSelf: "center",
   },
   panel: {
     flex: 1,
@@ -302,10 +289,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "700",
   },
-  actionIconText: {
-    color: BRAND_COLORS.white,
-    fontSize: 18,
-    fontWeight: "700",
+  actionIconImage: {
+    width: "46%",
+    height: "46%",
+    tintColor: BRAND_COLORS.white,
   },
   actionLabel: {
     marginTop: 8,
@@ -315,3 +302,4 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+

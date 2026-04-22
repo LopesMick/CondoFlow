@@ -5,6 +5,7 @@ import { CondoTopHeader } from "../components/common/CondoTopHeader";
 
 interface CallsSyndicScreenProps {
   onGoBack: () => void;
+  onOpenCallDetails?: () => void;
   onPressTab?: (tab: CondoBottomTab) => void;
 }
 
@@ -21,7 +22,7 @@ const doneCalls: CallEntry[] = [
   {
     name: "Roberta Alves",
     unit: "Apto 305 - Bloco C",
-    status: "Concluidas",
+    status: "Concluídas",
     statusTone: "success",
     avatarLetter: "R",
     avatarColor: BRAND_COLORS.surfaceSoft,
@@ -29,7 +30,7 @@ const doneCalls: CallEntry[] = [
   {
     name: "Brenno Lacerda",
     unit: "Apto 211 - Bloco A",
-    status: "Concluidas",
+    status: "Concluídas",
     statusTone: "success",
     avatarLetter: "B",
     avatarColor: BRAND_COLORS.surfaceSoft,
@@ -63,7 +64,11 @@ const pendingCalls: CallEntry[] = [
   },
 ];
 
-export function CallsSyndicScreen({ onGoBack, onPressTab }: CallsSyndicScreenProps) {
+export function CallsSyndicScreen({
+  onGoBack,
+  onOpenCallDetails,
+  onPressTab,
+}: CallsSyndicScreenProps) {
   return (
     <View style={styles.screen}>
       <View style={styles.headerArea}>
@@ -75,14 +80,18 @@ export function CallsSyndicScreen({ onGoBack, onPressTab }: CallsSyndicScreenPro
           <Text style={styles.filterLabel}>Filtrar:</Text>
 
           <TouchableOpacity style={styles.selectField}>
-            <Text style={styles.selectPlaceholder}>Filtrar Opcoes</Text>
+            <Text style={styles.selectPlaceholder}>Filtrar opções</Text>
             <Text style={styles.selectArrow}>v</Text>
           </TouchableOpacity>
 
-          <Text style={[styles.sectionTitle, styles.sectionTitleDone]}>Chamadas Concluidas:</Text>
+          <Text style={[styles.sectionTitle, styles.sectionTitleDone]}>Chamadas Concluídas:</Text>
           <View style={styles.sectionDivider} />
           {doneCalls.map((call) => (
-            <CallRow key={`${call.name}-${call.unit}`} call={call} />
+            <CallRow
+              key={`${call.name}-${call.unit}`}
+              call={call}
+              onPress={onOpenCallDetails}
+            />
           ))}
 
           <Text style={[styles.sectionTitle, styles.sectionTitlePending]}>
@@ -90,7 +99,11 @@ export function CallsSyndicScreen({ onGoBack, onPressTab }: CallsSyndicScreenPro
           </Text>
           <View style={styles.sectionDivider} />
           {pendingCalls.map((call) => (
-            <CallRow key={`${call.name}-${call.unit}`} call={call} />
+            <CallRow
+              key={`${call.name}-${call.unit}`}
+              call={call}
+              onPress={onOpenCallDetails}
+            />
           ))}
         </ScrollView>
 
@@ -100,11 +113,11 @@ export function CallsSyndicScreen({ onGoBack, onPressTab }: CallsSyndicScreenPro
   );
 }
 
-function CallRow({ call }: { call: CallEntry }) {
+function CallRow({ call, onPress }: { call: CallEntry; onPress?: () => void }) {
   const statusColor = call.statusTone === "success" ? BRAND_COLORS.success : BRAND_COLORS.danger;
 
   return (
-    <TouchableOpacity style={styles.row} activeOpacity={0.86}>
+    <TouchableOpacity style={styles.row} activeOpacity={0.86} onPress={onPress}>
       <View style={[styles.avatar, { backgroundColor: call.avatarColor }]}>
         <Text style={styles.avatarText}>{call.avatarLetter}</Text>
       </View>

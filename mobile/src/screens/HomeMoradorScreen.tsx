@@ -1,8 +1,10 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { BRAND_COLORS, BRANDING } from "../assets/branding";
+import { Image, ImageSourcePropType, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { BRAND_COLORS, HOME_ICONS } from "../assets/branding";
+import { CondoBrandLockup } from "../components/common/CondoBrandLockup";
 import { CondoBottomNav, CondoBottomTab } from "../components/common/CondoBottomNav";
 
 interface HomeMoradorScreenProps {
+  onOpenReservations: () => void;
   onOpenCalls: () => void;
   onOpenVisitorRegistration: () => void;
   onOpenPackages: () => void;
@@ -13,16 +15,16 @@ interface HomeMoradorScreenProps {
 }
 
 const actions = [
-  { key: "reservas", label: "Reservas", icon: "RS" },
-  { key: "chamadas", label: "Chamadas", icon: "CH" },
-  { key: "financeiro", label: "Financeiro", icon: "$" },
-  { key: "visitantes", label: "Visitantes", icon: "VS" },
-  { key: "encomendas", label: "Encomendas", icon: "EN" },
-  { key: "notificacoes", label: "Notificacoes", icon: "NT", badge: 3 },
+  { key: "reservas", label: "Reservas", iconSource: HOME_ICONS.reservas },
+  { key: "chamadas", label: "Chamadas", iconSource: HOME_ICONS.chamadas },
+  { key: "financeiro", label: "Financeiro", iconSource: HOME_ICONS.financeiro },
+  { key: "visitantes", label: "Visitantes", iconSource: HOME_ICONS.visitantes },
+  { key: "encomendas", label: "Encomendas", iconSource: HOME_ICONS.encomendas },
+  { key: "notificacoes", label: "Notificações", iconSource: HOME_ICONS.notificacoes, badge: 3 },
 ] as const satisfies ReadonlyArray<{
   key: string;
   label: string;
-  icon: string;
+  iconSource: ImageSourcePropType;
   badge?: number;
 }>;
 
@@ -32,7 +34,7 @@ const updates = [
     icon: "F",
     title: "Financeiro",
     value: "R$400,00",
-    status: "Concluido",
+    status: "Concluído",
     details: "Ver detalhes",
   },
   {
@@ -40,12 +42,13 @@ const updates = [
     icon: "R",
     title: "Reservas",
     value: "Play - 14/03",
-    status: "Concluido",
+    status: "Concluído",
     details: "14/03/2026",
   },
 ] as const;
 
 export function HomeMoradorScreen({
+  onOpenReservations,
   onOpenCalls,
   onOpenVisitorRegistration,
   onOpenPackages,
@@ -55,6 +58,11 @@ export function HomeMoradorScreen({
   onPressTab,
 }: HomeMoradorScreenProps) {
   const onPressAction = (key: (typeof actions)[number]["key"]) => {
+    if (key === "reservas") {
+      onOpenReservations();
+      return;
+    }
+
     if (key === "chamadas") {
       onOpenCalls();
       return;
@@ -85,18 +93,15 @@ export function HomeMoradorScreen({
       <View style={styles.headerArea}>
         <View style={styles.topRow}>
           <View>
-            <Text style={styles.greeting}>Hello, Matheus Pessoa!</Text>
-            <Text style={styles.condoText}>Condominio Nova Luz | Apto 302 - Bloco A</Text>
+            <Text style={styles.greeting}>Olá, Matheus Pessoa!</Text>
+            <Text style={styles.condoText}>Condomínio Nova Luz | Apto 302 - Bloco A</Text>
           </View>
           <View style={styles.bellButton}>
             <View style={styles.bellShape} />
           </View>
         </View>
 
-        <View style={styles.brandRow}>
-          <Image source={BRANDING.shield} style={styles.shieldLogo} resizeMode="contain" />
-          <Image source={BRANDING.wordmark} style={styles.wordmark} resizeMode="contain" />
-        </View>
+        <CondoBrandLockup size="home" style={styles.brandRow} />
       </View>
 
       <View style={styles.panel}>
@@ -107,15 +112,15 @@ export function HomeMoradorScreen({
             </View>
 
             <View style={styles.highlightTextBlock}>
-              <Text style={styles.highlightTitle}>Sindico Mickael</Text>
+              <Text style={styles.highlightTitle}>Síndico Mickael</Text>
               <Text style={styles.highlightSubtitle}>
-                Elevador de servico em manutencao
+                Elevador de serviço em manutenção
               </Text>
 
               <View style={styles.highlightDivider} />
 
               <View style={styles.highlightFooter}>
-                <Text style={styles.highlightMeta}>D 13 de Marco</Text>
+                <Text style={styles.highlightMeta}>13 de Março</Text>
                 <Text style={styles.highlightMeta}>T 11:00 - 12:00 AM</Text>
               </View>
             </View>
@@ -140,7 +145,7 @@ export function HomeMoradorScreen({
                         <Text style={styles.badgeText}>{badge}</Text>
                       </View>
                     ) : null}
-                    <Text style={styles.actionIconText}>{action.icon}</Text>
+                    <Image source={action.iconSource} style={styles.actionIconImage} resizeMode="contain" />
                   </View>
                   <Text style={styles.actionLabel}>{action.label}</Text>
                 </TouchableOpacity>
@@ -222,19 +227,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 4,
   },
   brandRow: {
-    marginTop: 20,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 10,
-  },
-  shieldLogo: {
-    width: 64,
-    height: 68,
-  },
-  wordmark: {
-    width: 180,
-    height: 56,
+    marginTop: 16,
+    alignSelf: "center",
   },
   panel: {
     flex: 1,
@@ -343,10 +337,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "700",
   },
-  actionIconText: {
-    color: BRAND_COLORS.white,
-    fontSize: 18,
-    fontWeight: "700",
+  actionIconImage: {
+    width: "46%",
+    height: "46%",
+    tintColor: BRAND_COLORS.white,
   },
   actionLabel: {
     marginTop: 8,
@@ -417,3 +411,4 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
 });
+
