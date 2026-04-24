@@ -32,7 +32,14 @@ export function DirectoryListRow({
           : BRAND_COLORS.text;
 
   return (
-    <TouchableOpacity style={styles.row} activeOpacity={0.86} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.row}
+      activeOpacity={0.86}
+      onPress={onPress}
+      disabled={!onPress}
+      accessibilityRole={onPress ? "button" : undefined}
+      accessibilityLabel={`${name}, ${unit}${middleText ? `, ${middleText}` : ""}`}
+    >
       <View
         style={[
           styles.avatar,
@@ -43,20 +50,26 @@ export function DirectoryListRow({
       </View>
 
       <View style={styles.personBlock}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.unit}>{unit}</Text>
+        <Text style={styles.name} numberOfLines={1}>
+          {name}
+        </Text>
+        <Text style={styles.unit} numberOfLines={1}>
+          {unit}
+        </Text>
       </View>
 
       <View style={styles.divider} />
 
       {middleText ? (
         <>
-          <Text style={[styles.middleText, { color: middleColor }]}>{middleText}</Text>
+          <Text style={[styles.middleText, { color: middleColor }]} numberOfLines={2}>
+            {middleText}
+          </Text>
           <View style={styles.divider} />
         </>
       ) : null}
 
-      <Text style={styles.details}>
+      <Text style={styles.details} numberOfLines={2}>
         {detailsLabel} {">"}
       </Text>
     </TouchableOpacity>
@@ -67,8 +80,9 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
-    minHeight: 68,
+    minHeight: 72,
     marginBottom: 6,
+    paddingVertical: 4,
   },
   avatar: {
     width: 56,
@@ -90,7 +104,8 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   personBlock: {
-    width: 122,
+    flex: 1.2,
+    minWidth: 0,
     marginRight: 8,
   },
   name: {
@@ -111,14 +126,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   middleText: {
-    width: 88,
+    flex: 0.85,
+    minWidth: 76,
     fontSize: 14,
     fontWeight: "700",
   },
   details: {
-    flex: 1,
+    flex: 0.95,
+    minWidth: 82,
     color: BRAND_COLORS.info,
     fontSize: 13,
+    lineHeight: 17,
     textAlign: "right",
   },
 });

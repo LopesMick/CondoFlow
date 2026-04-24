@@ -66,12 +66,6 @@ export function CallsScreen({
           <Text style={styles.sectionTitle}>Minhas Chamadas:</Text>
           <View style={styles.sectionDivider} />
 
-          <View style={styles.iconOnlyRow}>
-            <View style={styles.callIconWrap}>
-              <Text style={styles.callIconText}>C</Text>
-            </View>
-          </View>
-
           {myCalls.map((item) => (
             <CallItemRow
               key={`${item.title}-${item.category}`}
@@ -96,23 +90,38 @@ function CallItemRow({ item, onPress }: { item: MyCallItem; onPress?: () => void
         : BRAND_COLORS.info;
 
   return (
-    <TouchableOpacity style={styles.row} activeOpacity={0.86} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.row}
+      activeOpacity={0.86}
+      onPress={onPress}
+      disabled={!onPress}
+      accessibilityRole={onPress ? "button" : undefined}
+      accessibilityLabel={`${item.title} ${item.subtitle}, ${item.category}`}
+    >
       <View style={styles.callIconWrap}>
         <Text style={styles.callIconText}>C</Text>
       </View>
 
       <View style={styles.personBlock}>
-        <Text style={styles.personTitle}>{item.title}</Text>
-        <Text style={styles.personSubtitle}>{item.subtitle}</Text>
+        <Text style={styles.personTitle} numberOfLines={1}>
+          {item.title}
+        </Text>
+        <Text style={styles.personSubtitle} numberOfLines={1}>
+          {item.subtitle}
+        </Text>
       </View>
 
       <View style={styles.divider} />
 
-      <Text style={[styles.categoryText, { color: toneColor }]}>{item.category}</Text>
+      <Text style={[styles.categoryText, { color: toneColor }]} numberOfLines={2}>
+        {item.category}
+      </Text>
 
       <View style={styles.divider} />
 
-      <Text style={styles.details}>Ver Detalhes {">"}</Text>
+      <Text style={styles.details} numberOfLines={2}>
+        Ver Detalhes {">"}
+      </Text>
     </TouchableOpacity>
   );
 }
@@ -142,7 +151,8 @@ const styles = StyleSheet.create({
   },
   newCallButton: {
     alignSelf: "center",
-    minWidth: 230,
+    width: "100%",
+    maxWidth: 320,
     height: 48,
     borderRadius: 24,
     backgroundColor: BRAND_COLORS.info,
@@ -193,16 +203,12 @@ const styles = StyleSheet.create({
     backgroundColor: BRAND_COLORS.info,
     marginBottom: 10,
   },
-  iconOnlyRow: {
-    minHeight: 48,
-    justifyContent: "center",
-    marginBottom: 8,
-  },
   row: {
     flexDirection: "row",
     alignItems: "center",
     minHeight: 72,
     marginBottom: 6,
+    paddingVertical: 4,
   },
   callIconWrap: {
     width: 40,
@@ -219,7 +225,8 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   personBlock: {
-    width: 132,
+    flex: 1.2,
+    minWidth: 0,
     marginRight: 8,
   },
   personTitle: {
@@ -241,14 +248,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   categoryText: {
-    width: 84,
+    flex: 0.8,
+    minWidth: 68,
     fontSize: 14,
     fontWeight: "700",
   },
   details: {
-    flex: 1,
+    flex: 0.95,
     color: BRAND_COLORS.info,
     fontSize: 13,
+    lineHeight: 17,
     textAlign: "right",
   },
 });

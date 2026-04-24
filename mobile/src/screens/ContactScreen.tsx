@@ -1,4 +1,5 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+﻿import { useMemo, useState } from "react";
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { BRAND_COLORS } from "../assets/branding";
 import { CondoBottomNav, CondoBottomTab } from "../components/common/CondoBottomNav";
 import { CondoTopHeader } from "../components/common/CondoTopHeader";
@@ -18,6 +19,18 @@ const contactItems = [
 ] as const;
 
 export function ContactScreen({ onGoBack, onOpenFaq, onPressTab }: ContactScreenProps) {
+  const [search, setSearch] = useState("");
+
+  const filteredContactItems = useMemo(() => {
+    const normalized = search.trim().toLowerCase();
+
+    if (!normalized) {
+      return contactItems;
+    }
+
+    return contactItems.filter((item) => item.label.toLowerCase().includes(normalized));
+  }, [search]);
+
   return (
     <View style={styles.screen}>
       <View style={styles.headerArea}>
@@ -37,21 +50,29 @@ export function ContactScreen({ onGoBack, onOpenFaq, onPressTab }: ContactScreen
             </TouchableOpacity>
           </View>
 
-          <View style={styles.searchField}>
-            <Text style={styles.searchPlaceholder}>Buscar</Text>
-          </View>
+          <TextInput
+            style={styles.searchField}
+            value={search}
+            onChangeText={setSearch}
+            placeholder="Buscar"
+            placeholderTextColor={BRAND_COLORS.mutedText}
+          />
 
           <View style={styles.contactsWrap}>
-            {contactItems.map((item) => (
-              <TouchableOpacity key={item.label} style={styles.contactRow} activeOpacity={0.8}>
-                <View style={styles.contactIcon}>
-                  <Text style={styles.contactIconText}>{item.icon}</Text>
-                </View>
+            {filteredContactItems.length === 0 ? (
+              <Text style={styles.emptyText}>Nenhum contato encontrado.</Text>
+            ) : (
+              filteredContactItems.map((item) => (
+                <TouchableOpacity key={item.label} style={styles.contactRow} activeOpacity={0.8}>
+                  <View style={styles.contactIcon}>
+                    <Text style={styles.contactIconText}>{item.icon}</Text>
+                  </View>
 
-                <Text style={styles.contactLabel}>{item.label}</Text>
-                <Text style={styles.contactChevron}>{">"}</Text>
-              </TouchableOpacity>
-            ))}
+                  <Text style={styles.contactLabel}>{item.label}</Text>
+                  <Text style={styles.contactChevron}>{">"}</Text>
+                </TouchableOpacity>
+              ))
+            )}
           </View>
         </ScrollView>
 
@@ -123,13 +144,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: BRAND_COLORS.info,
     backgroundColor: BRAND_COLORS.surfaceSoft,
-    justifyContent: "center",
     paddingHorizontal: 16,
-    marginBottom: 34,
-  },
-  searchPlaceholder: {
-    color: BRAND_COLORS.mutedText,
-    fontSize: 14,
+    marginBottom: 26,
+    color: BRAND_COLORS.text,
   },
   contactsWrap: {
     gap: 14,
@@ -137,7 +154,7 @@ const styles = StyleSheet.create({
   contactRow: {
     flexDirection: "row",
     alignItems: "center",
-    minHeight: 38,
+    minHeight: 44,
   },
   contactIcon: {
     width: 34,
@@ -161,7 +178,13 @@ const styles = StyleSheet.create({
   },
   contactChevron: {
     color: BRAND_COLORS.text,
-    fontSize: 22,
+    fontSize: 20,
     lineHeight: 22,
+  },
+  emptyText: {
+    color: BRAND_COLORS.mutedText,
+    fontSize: 14,
+    textAlign: "center",
+    paddingVertical: 16,
   },
 });

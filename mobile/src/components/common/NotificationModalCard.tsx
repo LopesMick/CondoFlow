@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -43,13 +44,21 @@ export function NotificationModalCard({
           style={StyleSheet.absoluteFill}
           activeOpacity={1}
           onPress={onDismiss}
+          accessibilityRole="button"
+          accessibilityLabel="Fechar modal"
         />
       ) : null}
 
       <TouchableWithoutFeedback>
         <View style={styles.card}>
           <Text style={[styles.title, { color: titleColor }]}>{title}</Text>
-          <View style={styles.content}>{children}</View>
+          <ScrollView
+            style={styles.contentScroll}
+            contentContainerStyle={styles.content}
+            showsVerticalScrollIndicator={false}
+          >
+            {children}
+          </ScrollView>
         </View>
       </TouchableWithoutFeedback>
     </View>
@@ -92,17 +101,28 @@ export function NotificationActionButtons({
   onPrimary,
   onSecondary,
 }: NotificationActionButtonsProps) {
+  const primaryDisabled = !onPrimary;
+  const secondaryDisabled = !!secondaryText && !onSecondary;
+
   return (
     <View style={styles.actions}>
-      <TouchableOpacity style={styles.primaryButton} activeOpacity={0.88} onPress={onPrimary}>
+      <TouchableOpacity
+        style={[styles.primaryButton, primaryDisabled && styles.buttonDisabled]}
+        activeOpacity={0.88}
+        onPress={onPrimary}
+        disabled={primaryDisabled}
+        accessibilityRole="button"
+      >
         <Text style={styles.primaryText}>{primaryText}</Text>
       </TouchableOpacity>
 
       {secondaryText ? (
         <TouchableOpacity
-          style={styles.secondaryButton}
+          style={[styles.secondaryButton, secondaryDisabled && styles.buttonDisabled]}
           activeOpacity={0.88}
           onPress={onSecondary}
+          disabled={secondaryDisabled}
+          accessibilityRole="button"
         >
           <Text style={styles.secondaryText}>{secondaryText}</Text>
         </TouchableOpacity>
@@ -116,27 +136,31 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: BRAND_COLORS.backgroundSoft,
-    paddingHorizontal: 20,
-    paddingVertical: 18,
+    backgroundColor: "rgba(15,23,42,0.28)",
+    paddingHorizontal: 16,
+    paddingVertical: 14,
   },
   card: {
     width: "100%",
     maxWidth: 430,
+    maxHeight: "94%",
     borderRadius: 24,
     backgroundColor: BRAND_COLORS.backgroundMuted,
     paddingHorizontal: 20,
-    paddingTop: 34,
-    paddingBottom: 26,
+    paddingTop: 30,
+    paddingBottom: 20,
   },
   title: {
     textAlign: "center",
-    fontSize: 40,
+    fontSize: 32,
     fontWeight: "800",
-    lineHeight: 48,
+    lineHeight: 38,
+  },
+  contentScroll: {
+    marginTop: 18,
   },
   content: {
-    marginTop: 20,
+    paddingBottom: 12,
   },
   personRow: {
     flexDirection: "row",
@@ -199,11 +223,13 @@ const styles = StyleSheet.create({
     marginTop: 22,
     alignItems: "center",
     gap: 12,
+    width: "100%",
   },
   primaryButton: {
-    minWidth: 220,
-    height: 46,
-    borderRadius: 23,
+    width: "100%",
+    maxWidth: 264,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: BRAND_COLORS.info,
     alignItems: "center",
     justifyContent: "center",
@@ -215,9 +241,10 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   secondaryButton: {
-    minWidth: 220,
-    height: 46,
-    borderRadius: 23,
+    width: "100%",
+    maxWidth: 264,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: BRAND_COLORS.surfaceSoft,
     alignItems: "center",
     justifyContent: "center",
@@ -227,5 +254,8 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.text,
     fontSize: 16,
     fontWeight: "600",
+  },
+  buttonDisabled: {
+    opacity: 0.45,
   },
 });

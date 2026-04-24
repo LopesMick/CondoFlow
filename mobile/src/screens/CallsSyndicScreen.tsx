@@ -1,7 +1,8 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+﻿import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { BRAND_COLORS } from "../assets/branding";
 import { CondoBottomNav, CondoBottomTab } from "../components/common/CondoBottomNav";
 import { CondoTopHeader } from "../components/common/CondoTopHeader";
+import { DirectoryListRow } from "../components/common/DirectoryListRow";
 
 interface CallsSyndicScreenProps {
   onGoBack: () => void;
@@ -15,25 +16,25 @@ interface CallEntry {
   status: string;
   statusTone: "success" | "danger";
   avatarLetter: string;
-  avatarColor: string;
+  avatarTone: "soft" | "accent";
 }
 
 const doneCalls: CallEntry[] = [
   {
     name: "Roberta Alves",
     unit: "Apto 305 - Bloco C",
-    status: "Concluídas",
+    status: "Concluidas",
     statusTone: "success",
     avatarLetter: "R",
-    avatarColor: BRAND_COLORS.surfaceSoft,
+    avatarTone: "soft",
   },
   {
     name: "Brenno Lacerda",
     unit: "Apto 211 - Bloco A",
-    status: "Concluídas",
+    status: "Concluidas",
     statusTone: "success",
     avatarLetter: "B",
-    avatarColor: BRAND_COLORS.surfaceSoft,
+    avatarTone: "soft",
   },
 ];
 
@@ -44,7 +45,7 @@ const pendingCalls: CallEntry[] = [
     status: "1 Chamada",
     statusTone: "danger",
     avatarLetter: "M",
-    avatarColor: BRAND_COLORS.accentSoft,
+    avatarTone: "accent",
   },
   {
     name: "Marcio Silva",
@@ -52,7 +53,7 @@ const pendingCalls: CallEntry[] = [
     status: "3 Chamadas",
     statusTone: "danger",
     avatarLetter: "M",
-    avatarColor: BRAND_COLORS.accentSoft,
+    avatarTone: "accent",
   },
   {
     name: "Larissa Santos",
@@ -60,7 +61,7 @@ const pendingCalls: CallEntry[] = [
     status: "5 Chamadas",
     statusTone: "danger",
     avatarLetter: "L",
-    avatarColor: BRAND_COLORS.accentSoft,
+    avatarTone: "accent",
   },
 ];
 
@@ -80,28 +81,40 @@ export function CallsSyndicScreen({
           <Text style={styles.filterLabel}>Filtrar:</Text>
 
           <TouchableOpacity style={styles.selectField}>
-            <Text style={styles.selectPlaceholder}>Filtrar opções</Text>
+            <Text style={styles.selectPlaceholder}>Filtrar opcoes</Text>
             <Text style={styles.selectArrow}>v</Text>
           </TouchableOpacity>
 
-          <Text style={[styles.sectionTitle, styles.sectionTitleDone]}>Chamadas Concluídas:</Text>
+          <Text style={[styles.sectionTitle, styles.sectionTitleDone]}>Chamadas concluidas:</Text>
           <View style={styles.sectionDivider} />
           {doneCalls.map((call) => (
-            <CallRow
+            <DirectoryListRow
               key={`${call.name}-${call.unit}`}
-              call={call}
+              avatarLetter={call.avatarLetter}
+              avatarTone={call.avatarTone}
+              name={call.name}
+              unit={call.unit}
+              middleText={call.status}
+              middleTone={call.statusTone}
+              detailsLabel="Ver Detalhes"
               onPress={onOpenCallDetails}
             />
           ))}
 
           <Text style={[styles.sectionTitle, styles.sectionTitlePending]}>
-            Chamadas Pendentes:
+            Chamadas pendentes:
           </Text>
           <View style={styles.sectionDivider} />
           {pendingCalls.map((call) => (
-            <CallRow
+            <DirectoryListRow
               key={`${call.name}-${call.unit}`}
-              call={call}
+              avatarLetter={call.avatarLetter}
+              avatarTone={call.avatarTone}
+              name={call.name}
+              unit={call.unit}
+              middleText={call.status}
+              middleTone={call.statusTone}
+              detailsLabel="Ver Detalhes"
               onPress={onOpenCallDetails}
             />
           ))}
@@ -110,31 +123,6 @@ export function CallsSyndicScreen({
         <CondoBottomNav active="home" onPressTab={onPressTab} />
       </View>
     </View>
-  );
-}
-
-function CallRow({ call, onPress }: { call: CallEntry; onPress?: () => void }) {
-  const statusColor = call.statusTone === "success" ? BRAND_COLORS.success : BRAND_COLORS.danger;
-
-  return (
-    <TouchableOpacity style={styles.row} activeOpacity={0.86} onPress={onPress}>
-      <View style={[styles.avatar, { backgroundColor: call.avatarColor }]}>
-        <Text style={styles.avatarText}>{call.avatarLetter}</Text>
-      </View>
-
-      <View style={styles.personBlock}>
-        <Text style={styles.personName}>{call.name}</Text>
-        <Text style={styles.personMeta}>{call.unit}</Text>
-      </View>
-
-      <View style={styles.divider} />
-
-      <Text style={[styles.status, { color: statusColor }]}>{call.status}</Text>
-
-      <View style={styles.divider} />
-
-      <Text style={styles.details}>Ver Detalhes {">"}</Text>
-    </TouchableOpacity>
   );
 }
 
@@ -203,56 +191,5 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: BRAND_COLORS.info,
     marginBottom: 10,
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    minHeight: 68,
-    marginBottom: 6,
-  },
-  avatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 10,
-  },
-  avatarText: {
-    color: BRAND_COLORS.primary,
-    fontSize: 18,
-    fontWeight: "700",
-  },
-  personBlock: {
-    width: 122,
-    marginRight: 8,
-  },
-  personName: {
-    color: BRAND_COLORS.text,
-    fontSize: 16,
-    fontWeight: "700",
-  },
-  personMeta: {
-    marginTop: 2,
-    color: BRAND_COLORS.info,
-    fontSize: 14,
-    fontWeight: "600",
-  },
-  divider: {
-    width: 1,
-    height: 46,
-    backgroundColor: BRAND_COLORS.info,
-    marginHorizontal: 8,
-  },
-  status: {
-    width: 78,
-    fontSize: 14,
-    fontWeight: "700",
-  },
-  details: {
-    flex: 1,
-    color: BRAND_COLORS.info,
-    fontSize: 13,
-    textAlign: "right",
   },
 });

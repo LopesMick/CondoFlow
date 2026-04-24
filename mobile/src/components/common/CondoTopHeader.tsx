@@ -1,29 +1,50 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { BRAND_COLORS } from "../../assets/branding";
 
 interface CondoTopHeaderProps {
   title: string;
   onBack: () => void;
   onPressRight?: () => void;
+  rightAccessibilityLabel?: string;
 }
 
-export function CondoTopHeader({ title, onBack, onPressRight }: CondoTopHeaderProps) {
+export function CondoTopHeader({
+  title,
+  onBack,
+  onPressRight,
+  rightAccessibilityLabel = "Abrir notificações",
+}: CondoTopHeaderProps) {
   return (
     <View style={styles.row}>
-      <TouchableOpacity style={styles.backButton} onPress={onBack}>
-        <Text style={styles.backIcon}>{"<"}</Text>
-      </TouchableOpacity>
+      <Pressable
+        style={({ pressed }) => [styles.backButton, pressed && styles.pressed]}
+        onPress={onBack}
+        accessibilityRole="button"
+        accessibilityLabel="Voltar"
+        hitSlop={8}
+      >
+        <Text style={styles.backIcon}>{"‹"}</Text>
+      </Pressable>
 
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title} numberOfLines={2}>
+        {title}
+      </Text>
 
-      <TouchableOpacity
-        style={styles.bellButton}
+      <Pressable
+        style={({ pressed }) => [
+          styles.bellButton,
+          !onPressRight && styles.bellButtonDisabled,
+          pressed && onPressRight && styles.pressed,
+        ]}
         onPress={onPressRight}
         disabled={!onPressRight}
-        activeOpacity={0.85}
+        accessibilityRole="button"
+        accessibilityLabel={rightAccessibilityLabel}
+        hitSlop={8}
       >
         <View style={styles.bellBody} />
-      </TouchableOpacity>
+        <View style={styles.bellClapper} />
+      </Pressable>
     </View>
   );
 }
@@ -33,36 +54,46 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 22,
+    paddingHorizontal: 20,
     paddingTop: 14,
-    paddingBottom: 18,
+    paddingBottom: 16,
   },
   backButton: {
-    width: 34,
-    height: 34,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: BRAND_COLORS.whiteOverlay,
   },
   backIcon: {
     color: BRAND_COLORS.white,
     fontSize: 30,
     lineHeight: 30,
-    marginTop: -2,
+    marginTop: -3,
   },
   title: {
+    flex: 1,
+    textAlign: "center",
+    marginHorizontal: 12,
     color: BRAND_COLORS.white,
     fontSize: 19,
+    lineHeight: 24,
     fontWeight: "700",
   },
   bellButton: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     backgroundColor: BRAND_COLORS.surfaceSoft,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
     borderColor: BRAND_COLORS.border,
+    opacity: 1,
+  },
+  bellButtonDisabled: {
+    opacity: 0.45,
   },
   bellBody: {
     width: 14,
@@ -73,5 +104,15 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 8,
     borderBottomLeftRadius: 4,
     borderBottomRightRadius: 4,
+  },
+  bellClapper: {
+    width: 5,
+    height: 2,
+    borderRadius: 1,
+    backgroundColor: BRAND_COLORS.primaryDark,
+    marginTop: 2,
+  },
+  pressed: {
+    opacity: 0.72,
   },
 });

@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { BRAND_COLORS } from "../assets/branding";
 import { CondoBottomNav, CondoBottomTab } from "../components/common/CondoBottomNav";
 import { CondoTopHeader } from "../components/common/CondoTopHeader";
@@ -19,96 +28,117 @@ export function RegisterResidentScreen({
   const [email, setEmail] = useState("");
   const [apartment, setApartment] = useState("");
   const [block, setBlock] = useState("");
+  const canSubmit =
+    fullName.trim().length > 0 &&
+    cpf.trim().length > 0 &&
+    phone.trim().length > 0 &&
+    email.trim().length > 0 &&
+    apartment.trim().length > 0 &&
+    block.trim().length > 0;
 
   return (
-    <View style={styles.screen}>
+    <KeyboardAvoidingView
+      style={styles.screen}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    >
       <View style={styles.headerArea}>
         <CondoTopHeader title={"Cadastrar Novo\nMorador"} onBack={onGoBack} />
       </View>
 
       <View style={styles.panel}>
-        <View style={styles.avatarWrap}>
-          <View style={styles.avatarCircle}>
-            <View style={styles.pictureFrame}>
-              <View style={styles.pictureSun} />
-              <View style={styles.pictureMountainSmall} />
-              <View style={styles.pictureMountainLarge} />
-            </View>
-            <View style={styles.pictureBadge}>
-              <Text style={styles.pictureBadgeText}>+</Text>
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.avatarWrap}>
+            <View style={styles.avatarCircle}>
+              <View style={styles.pictureFrame}>
+                <View style={styles.pictureSun} />
+                <View style={styles.pictureMountainSmall} />
+                <View style={styles.pictureMountainLarge} />
+              </View>
+              <View style={styles.pictureBadge}>
+                <Text style={styles.pictureBadgeText}>+</Text>
+              </View>
             </View>
           </View>
-        </View>
 
-        <View style={styles.formArea}>
-          <Text style={styles.label}>Nome Completo:</Text>
-          <TextInput
-            value={fullName}
-            onChangeText={setFullName}
-            style={styles.field}
-            placeholder="Nome Completo"
-            placeholderTextColor={BRAND_COLORS.mutedText}
-          />
-
-          <Text style={styles.label}>CPF:</Text>
-          <TextInput
-            value={cpf}
-            onChangeText={setCpf}
-            style={styles.field}
-            placeholder="XXX.XXX.XXX-XX"
-            placeholderTextColor={BRAND_COLORS.mutedText}
-          />
-
-          <Text style={styles.label}>Telefone:</Text>
-          <TextInput
-            value={phone}
-            onChangeText={setPhone}
-            style={styles.field}
-            placeholder="(XX) X XXXX-XXXX"
-            placeholderTextColor={BRAND_COLORS.mutedText}
-            keyboardType="phone-pad"
-          />
-
-          <Text style={styles.label}>E-Mail:</Text>
-          <TextInput
-            value={email}
-            onChangeText={setEmail}
-            style={styles.field}
-            placeholder="XXX@GMAIL.COM"
-            placeholderTextColor={BRAND_COLORS.mutedText}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-
-          <Text style={styles.label}>Apartamento:</Text>
-          <TextInput
-            value={apartment}
-            onChangeText={setApartment}
-            style={styles.field}
-            placeholder="XXX"
-            placeholderTextColor={BRAND_COLORS.mutedText}
-          />
-
-          <Text style={styles.label}>Bloco</Text>
-          <View style={styles.selectField}>
+          <View style={styles.formArea}>
+            <Text style={styles.label}>Nome Completo:</Text>
             <TextInput
-              value={block}
-              onChangeText={setBlock}
-              style={styles.fieldInput}
-              placeholder="Bloco"
+              value={fullName}
+              onChangeText={setFullName}
+              style={styles.field}
+              placeholder="Nome Completo"
               placeholderTextColor={BRAND_COLORS.mutedText}
             />
-            <Text style={styles.arrowIcon}>v</Text>
-          </View>
 
-          <TouchableOpacity style={styles.confirmButton}>
-            <Text style={styles.confirmButtonText}>Cadastrar!</Text>
-          </TouchableOpacity>
-        </View>
+            <Text style={styles.label}>CPF:</Text>
+            <TextInput
+              value={cpf}
+              onChangeText={setCpf}
+              style={styles.field}
+              placeholder="XXX.XXX.XXX-XX"
+              placeholderTextColor={BRAND_COLORS.mutedText}
+            />
+
+            <Text style={styles.label}>Telefone:</Text>
+            <TextInput
+              value={phone}
+              onChangeText={setPhone}
+              style={styles.field}
+              placeholder="(XX) X XXXX-XXXX"
+              placeholderTextColor={BRAND_COLORS.mutedText}
+              keyboardType="phone-pad"
+            />
+
+            <Text style={styles.label}>E-Mail:</Text>
+            <TextInput
+              value={email}
+              onChangeText={setEmail}
+              style={styles.field}
+              placeholder="XXX@GMAIL.COM"
+              placeholderTextColor={BRAND_COLORS.mutedText}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+
+            <Text style={styles.label}>Apartamento:</Text>
+            <TextInput
+              value={apartment}
+              onChangeText={setApartment}
+              style={styles.field}
+              placeholder="XXX"
+              placeholderTextColor={BRAND_COLORS.mutedText}
+            />
+
+            <Text style={styles.label}>Bloco</Text>
+            <View style={styles.selectField}>
+              <TextInput
+                value={block}
+                onChangeText={setBlock}
+                style={styles.fieldInput}
+                placeholder="Bloco"
+                placeholderTextColor={BRAND_COLORS.mutedText}
+              />
+              <Text style={styles.arrowIcon}>v</Text>
+            </View>
+
+            <TouchableOpacity
+              style={[styles.confirmButton, !canSubmit && styles.confirmButtonDisabled]}
+              disabled={!canSubmit}
+              accessibilityRole="button"
+            >
+              <Text style={styles.confirmButtonText}>Cadastrar!</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
 
         <CondoBottomNav active="profile" onPressTab={onPressTab} />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -126,6 +156,12 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 60,
     borderTopRightRadius: 60,
     overflow: "hidden",
+  },
+  scroll: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 12,
   },
   avatarWrap: {
     alignItems: "center",
@@ -207,7 +243,6 @@ const styles = StyleSheet.create({
     marginTop: -1,
   },
   formArea: {
-    flex: 1,
     paddingHorizontal: 26,
     paddingTop: 8,
   },
@@ -249,9 +284,10 @@ const styles = StyleSheet.create({
   },
   confirmButton: {
     alignSelf: "center",
-    minWidth: 160,
-    height: 46,
-    borderRadius: 23,
+    width: "100%",
+    maxWidth: 320,
+    height: 50,
+    borderRadius: 25,
     backgroundColor: BRAND_COLORS.info,
     alignItems: "center",
     justifyContent: "center",
@@ -260,5 +296,8 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.white,
     fontSize: 17,
     fontWeight: "600",
+  },
+  confirmButtonDisabled: {
+    opacity: 0.5,
   },
 });

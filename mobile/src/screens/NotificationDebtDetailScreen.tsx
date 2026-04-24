@@ -61,9 +61,10 @@ const styles = StyleSheet.create({
   exitButton: {
     marginTop: 46,
     alignSelf: "center",
-    minWidth: 150,
-    height: 44,
-    borderRadius: 22,
+    width: "100%",
+    maxWidth: 220,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: BRAND_COLORS.info,
     alignItems: "center",
     justifyContent: "center",

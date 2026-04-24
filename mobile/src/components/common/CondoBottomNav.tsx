@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { BOTTOM_NAV_ICONS, BRAND_COLORS } from "../../assets/branding";
 
 export type CondoBottomTab = "home" | "search" | "center" | "notifications" | "profile";
@@ -18,18 +18,25 @@ const tabs: Array<{ key: CondoBottomTab; label: string }> = [
 
 export function CondoBottomNav({ active, onPressTab }: CondoBottomNavProps) {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} accessibilityRole="tablist">
       {tabs.map((tab) => {
         const isActive = tab.key === active;
-        const iconTint = isActive ? BRAND_COLORS.info : BRAND_COLORS.textStrong;
-        const labelColor = isActive ? BRAND_COLORS.info : BRAND_COLORS.textStrong;
+        const iconTint = isActive ? BRAND_COLORS.info : BRAND_COLORS.textSubtle;
+        const labelColor = isActive ? BRAND_COLORS.info : BRAND_COLORS.textSubtle;
 
         return (
-          <TouchableOpacity
+          <Pressable
             key={tab.key}
-            style={styles.tab}
+            style={({ pressed }) => [
+              styles.tab,
+              isActive && styles.tabActive,
+              pressed && styles.tabPressed,
+            ]}
             onPress={() => onPressTab?.(tab.key)}
-            activeOpacity={0.85}
+            accessibilityRole="tab"
+            accessibilityLabel={`Ir para ${tab.label}`}
+            accessibilityState={{ selected: isActive }}
+            hitSlop={6}
           >
             <View style={styles.iconWrap}>
               <Image
@@ -40,7 +47,7 @@ export function CondoBottomNav({ active, onPressTab }: CondoBottomNavProps) {
             </View>
 
             <Text style={[styles.label, { color: labelColor }]}>{tab.label}</Text>
-          </TouchableOpacity>
+          </Pressable>
         );
       })}
     </View>
@@ -49,21 +56,31 @@ export function CondoBottomNav({ active, onPressTab }: CondoBottomNavProps) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 18,
-    borderTopLeftRadius: 18,
-    borderTopRightRadius: 18,
+    marginTop: 14,
+    borderTopLeftRadius: 22,
+    borderTopRightRadius: 22,
     backgroundColor: BRAND_COLORS.backgroundMuted,
     paddingHorizontal: 10,
-    paddingTop: 10,
-    paddingBottom: 12,
+    paddingTop: 8,
+    paddingBottom: Platform.select({ ios: 16, android: 12, default: 12 }),
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "space-between",
+    borderTopWidth: 1,
+    borderTopColor: BRAND_COLORS.borderSoft,
   },
   tab: {
     flex: 1,
     alignItems: "center",
     gap: 4,
+    paddingVertical: 6,
+    borderRadius: 14,
+  },
+  tabActive: {
+    backgroundColor: BRAND_COLORS.surfaceSoft,
+  },
+  tabPressed: {
+    opacity: 0.72,
   },
   iconWrap: {
     width: 28,
@@ -77,5 +94,6 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 11,
+    fontWeight: "600",
   },
 });

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { BRAND_COLORS } from "../assets/branding";
 import { CondoBottomNav, CondoBottomTab } from "../components/common/CondoBottomNav";
 import { CondoTopHeader } from "../components/common/CondoTopHeader";
@@ -63,34 +63,44 @@ export function ProfileResidentScreen({
       </View>
 
       <View style={styles.panel}>
-        <View style={styles.avatarWrap}>
-          <View style={styles.avatarCircle}>
-            <Text style={styles.avatarText}>MP</Text>
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.avatarWrap}>
+            <View style={styles.avatarCircle}>
+              <Text style={styles.avatarText}>MP</Text>
+            </View>
           </View>
-        </View>
 
-        <View style={styles.identityBlock}>
-          <Text style={styles.name}>Matheus Pessoa</Text>
-          <Text style={styles.idText}>
-            <Text style={styles.idPrefix}>ID:</Text> CNLA-302A
-          </Text>
-        </View>
+          <View style={styles.identityBlock}>
+            <Text style={styles.name}>Matheus Pessoa</Text>
+            <Text style={styles.idText}>
+              <Text style={styles.idPrefix}>ID:</Text> CNLA-302A
+            </Text>
+          </View>
 
-        <View style={styles.actionsList}>
-          {profileActions.map((action) => (
-            <TouchableOpacity
-              key={action.key}
-              style={styles.actionRow}
-              activeOpacity={0.86}
-              onPress={() => handleActionPress(action.key)}
-            >
-              <View style={styles.actionIcon}>
-                <Text style={styles.actionIconText}>{action.icon}</Text>
-              </View>
-              <Text style={styles.actionLabel}>{action.label}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+          <View style={styles.actionsList}>
+            {profileActions.map((action) => (
+              <TouchableOpacity
+                key={action.key}
+                style={styles.actionRow}
+                activeOpacity={0.86}
+                onPress={() => handleActionPress(action.key)}
+                accessibilityRole="button"
+                accessibilityLabel={action.label}
+              >
+                <View style={styles.actionIcon}>
+                  <Text style={styles.actionIconText}>{action.icon}</Text>
+                </View>
+                <Text style={styles.actionLabel} numberOfLines={1}>
+                  {action.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
 
         <CondoBottomNav active="profile" onPressTab={onPressTab} />
       </View>
@@ -113,14 +123,20 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 60,
     overflow: "hidden",
   },
+  scroll: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 12,
+  },
   avatarWrap: {
     alignItems: "center",
-    marginTop: -58,
+    marginTop: -52,
   },
   avatarCircle: {
-    width: 116,
-    height: 116,
-    borderRadius: 58,
+    width: 108,
+    height: 108,
+    borderRadius: 54,
     backgroundColor: BRAND_COLORS.surfaceSoft,
     borderWidth: 2,
     borderColor: BRAND_COLORS.white,
@@ -129,56 +145,61 @@ const styles = StyleSheet.create({
   },
   avatarText: {
     color: BRAND_COLORS.primaryDark,
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: "700",
   },
   identityBlock: {
     alignItems: "center",
-    marginTop: 16,
-    marginBottom: 22,
+    marginTop: 12,
+    marginBottom: 18,
+    paddingHorizontal: 20,
   },
   name: {
     color: BRAND_COLORS.text,
-    fontSize: 38,
+    fontSize: 30,
     fontWeight: "700",
     textAlign: "center",
   },
   idText: {
     marginTop: 6,
     color: BRAND_COLORS.text,
-    fontSize: 22,
+    fontSize: 16,
     fontWeight: "500",
   },
   idPrefix: {
     fontWeight: "700",
   },
   actionsList: {
-    flex: 1,
     paddingHorizontal: 28,
     paddingTop: 8,
   },
   actionRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 24,
+    marginBottom: 14,
+    minHeight: 64,
+    borderRadius: 20,
+    backgroundColor: BRAND_COLORS.surfaceSoft,
+    paddingHorizontal: 14,
   },
   actionIcon: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: BRAND_COLORS.info,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 14,
+    marginRight: 12,
   },
   actionIconText: {
     color: BRAND_COLORS.white,
-    fontSize: 21,
+    fontSize: 18,
     fontWeight: "700",
   },
   actionLabel: {
+    flex: 1,
     color: BRAND_COLORS.text,
-    fontSize: 28,
-    fontWeight: "500",
+    fontSize: 20,
+    fontWeight: "600",
   },
 });

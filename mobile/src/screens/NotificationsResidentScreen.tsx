@@ -112,7 +112,13 @@ export function NotificationsResidentScreen({
 
 function NotificationRow({ item }: { item: NotificationItem }) {
   return (
-    <TouchableOpacity style={styles.row} activeOpacity={0.86} onPress={item.onPress}>
+    <TouchableOpacity
+      style={styles.row}
+      activeOpacity={0.86}
+      onPress={item.onPress}
+      accessibilityRole="button"
+      accessibilityLabel={`${item.title}. ${item.description}`}
+    >
       <View style={styles.rowIcon}>
         <Text style={styles.rowIconText}>{item.icon}</Text>
       </View>
@@ -162,8 +168,8 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   row: {
-    minHeight: 96,
-    marginBottom: 8,
+    minHeight: 92,
+    marginBottom: 10,
   },
   rowIcon: {
     position: "absolute",
@@ -177,7 +183,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   rowIconText: {
-    color: BRAND_COLORS.textStrong,
+    color: BRAND_COLORS.white,
     fontSize: 18,
     fontWeight: "700",
   },
@@ -187,7 +193,7 @@ const styles = StyleSheet.create({
   },
   rowTitle: {
     color: BRAND_COLORS.text,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "700",
   },
   rowDescription: {

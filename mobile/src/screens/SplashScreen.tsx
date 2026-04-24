@@ -100,8 +100,8 @@ const styles = StyleSheet.create({
   },
   enterButton: {
     width: "100%",
-    maxWidth: 360,
-    borderRadius: 12,
+    maxWidth: 320,
+    borderRadius: 16,
     height: 56,
     backgroundColor: BRAND_COLORS.accentDark,
     justifyContent: "center",

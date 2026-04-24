@@ -96,9 +96,15 @@ export function HomeMoradorScreen({
             <Text style={styles.greeting}>Olá, Matheus Pessoa!</Text>
             <Text style={styles.condoText}>Condomínio Nova Luz | Apto 302 - Bloco A</Text>
           </View>
-          <View style={styles.bellButton}>
+          <TouchableOpacity
+            style={styles.bellButton}
+            onPress={onOpenNotifications}
+            accessibilityRole="button"
+            accessibilityLabel="Abrir notificacoes"
+            activeOpacity={0.85}
+          >
             <View style={styles.bellShape} />
-          </View>
+          </TouchableOpacity>
         </View>
 
         <CondoBrandLockup size="home" style={styles.brandRow} />
@@ -207,9 +213,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   bellButton: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     backgroundColor: BRAND_COLORS.surfaceSoft,
     borderWidth: 1,
     borderColor: BRAND_COLORS.border,

@@ -1,8 +1,9 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -20,6 +21,7 @@ interface LoginScreenProps {
 export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const canLogin = email.trim().length > 0 && password.trim().length > 0;
 
   const resolveRoleFromEmail = (): "morador" | "porteiro" | "sindico" => {
     const normalized = email.trim().toLowerCase();
@@ -40,10 +42,15 @@ export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
       style={styles.screen}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      <View style={[styles.circle, styles.topCircleLarge]} />
-      <View style={[styles.circle, styles.topCircleSmall]} />
+      <View style={[styles.circle, styles.topCircleLarge]} pointerEvents="none" />
+      <View style={[styles.circle, styles.topCircleSmall]} pointerEvents="none" />
 
-      <View style={styles.content}>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
         <Text style={styles.welcome}>Bem-vindo de volta!</Text>
 
         <CondoBrandLockup size="login" style={styles.brandRow} />
@@ -68,13 +75,15 @@ export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
             style={styles.input}
           />
 
-          <TouchableOpacity onPress={onForgotPassword}>
+          <TouchableOpacity onPress={onForgotPassword} accessibilityRole="button">
             <Text style={styles.helperText}>Esqueceu a senha?</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.loginButton}
+            style={[styles.loginButton, !canLogin && styles.loginButtonDisabled]}
             onPress={() => onLogin(resolveRoleFromEmail())}
+            disabled={!canLogin}
+            accessibilityRole="button"
           >
             <Text style={styles.loginButtonText}>Login</Text>
           </TouchableOpacity>
@@ -82,20 +91,19 @@ export function LoginScreen({ onLogin, onForgotPassword }: LoginScreenProps) {
           <Text style={styles.socialLabel}>ou cadastre-se com</Text>
 
           <View style={styles.socialRow}>
-            <Pressable style={styles.socialButton}>
+            <Pressable style={styles.socialButton} accessibilityRole="button">
               <Text style={styles.socialButtonText}>f</Text>
             </Pressable>
-            <Pressable style={styles.socialButton}>
+            <Pressable style={styles.socialButton} accessibilityRole="button">
               <Text style={styles.socialButtonText}>G</Text>
             </Pressable>
           </View>
 
           <Text style={styles.signUpText}>
-            Ainda não tem cadastro?{" "}
-            <Text style={styles.signUpLink}>Cadastre-se</Text>
+            Ainda nao tem cadastro? <Text style={styles.signUpLink}>Cadastre-se</Text>
           </Text>
         </View>
-      </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 }
@@ -105,6 +113,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: BRAND_COLORS.primaryLight,
     overflow: "hidden",
+  },
+  scroll: {
+    flex: 1,
   },
   circle: {
     position: "absolute",
@@ -126,7 +137,7 @@ const styles = StyleSheet.create({
     opacity: 0.22,
   },
   content: {
-    flex: 1,
+    minHeight: "100%",
     paddingHorizontal: 28,
     paddingTop: 96,
     paddingBottom: 48,
@@ -164,10 +175,13 @@ const styles = StyleSheet.create({
   loginButton: {
     width: "100%",
     height: 54,
-    borderRadius: 10,
+    borderRadius: 16,
     backgroundColor: BRAND_COLORS.accentDark,
     alignItems: "center",
     justifyContent: "center",
+  },
+  loginButtonDisabled: {
+    opacity: 0.5,
   },
   loginButtonText: {
     color: BRAND_COLORS.white,

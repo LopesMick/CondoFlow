@@ -20,7 +20,12 @@ export function CondoConfirmationCard({
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.message}>{message}</Text>
 
-        <TouchableOpacity style={styles.button} onPress={onConfirm} activeOpacity={0.88}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={onConfirm}
+          activeOpacity={0.88}
+          accessibilityRole="button"
+        >
           <Text style={styles.buttonText}>{buttonText}</Text>
         </TouchableOpacity>
       </View>
@@ -39,6 +44,8 @@ const styles = StyleSheet.create({
   card: {
     width: "100%",
     maxWidth: 360,
+    borderWidth: 1,
+    borderColor: BRAND_COLORS.borderSoft,
     borderRadius: 22,
     backgroundColor: BRAND_COLORS.backgroundMuted,
     alignItems: "center",
@@ -63,7 +70,8 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 30,
-    minWidth: 220,
+    width: "100%",
+    maxWidth: 264,
     height: 48,
     borderRadius: 24,
     backgroundColor: BRAND_COLORS.info,

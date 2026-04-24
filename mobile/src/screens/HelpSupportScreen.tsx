@@ -1,4 +1,5 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+﻿import { useMemo, useState } from "react";
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { BRAND_COLORS } from "../assets/branding";
 import { CondoBottomNav, CondoBottomTab } from "../components/common/CondoBottomNav";
 import { CondoTopHeader } from "../components/common/CondoTopHeader";
@@ -11,13 +12,13 @@ interface HelpSupportScreenProps {
 
 const faqItems = [
   "Como autorizar a entrada de um visitante?",
-  "Como cadastrar um veículo?",
-  "Como abrir um chamado de manutenção?",
-  "Onde encontro meu boleto do condomínio?",
-  "Como reservar áreas comuns?",
+  "Como cadastrar um veiculo?",
+  "Como abrir um chamado de manutencao?",
+  "Onde encontro meu boleto do condominio?",
+  "Como reservar areas comuns?",
   "Como cadastrar um visitante antecipadamente?",
   "Como retirar uma encomenda na portaria?",
-  "O que fazer se encontrar um problema nas áreas comuns?",
+  "O que fazer se encontrar um problema nas areas comuns?",
   "Como reportar um problema no aplicativo?",
 ] as const;
 
@@ -26,6 +27,18 @@ export function HelpSupportScreen({
   onOpenContact,
   onPressTab,
 }: HelpSupportScreenProps) {
+  const [search, setSearch] = useState("");
+
+  const filteredFaqItems = useMemo(() => {
+    const normalized = search.trim().toLowerCase();
+
+    if (!normalized) {
+      return faqItems;
+    }
+
+    return faqItems.filter((item) => item.toLowerCase().includes(normalized));
+  }, [search]);
+
   return (
     <View style={styles.screen}>
       <View style={styles.headerArea}>
@@ -45,17 +58,25 @@ export function HelpSupportScreen({
             </TouchableOpacity>
           </View>
 
-          <View style={styles.searchField}>
-            <Text style={styles.searchPlaceholder}>Buscar</Text>
-          </View>
+          <TextInput
+            style={styles.searchField}
+            value={search}
+            onChangeText={setSearch}
+            placeholder="Buscar"
+            placeholderTextColor={BRAND_COLORS.mutedText}
+          />
 
           <View style={styles.faqList}>
-            {faqItems.map((item) => (
-              <TouchableOpacity key={item} style={styles.faqRow} activeOpacity={0.8}>
-                <Text style={styles.faqText}>{item}</Text>
-                <Text style={styles.faqChevron}>v</Text>
-              </TouchableOpacity>
-            ))}
+            {filteredFaqItems.length === 0 ? (
+              <Text style={styles.emptyText}>Nenhum resultado para a busca.</Text>
+            ) : (
+              filteredFaqItems.map((item) => (
+                <TouchableOpacity key={item} style={styles.faqRow} activeOpacity={0.8}>
+                  <Text style={styles.faqText}>{item}</Text>
+                  <Text style={styles.faqChevron}>{">"}</Text>
+                </TouchableOpacity>
+              ))
+            )}
           </View>
         </ScrollView>
 
@@ -127,13 +148,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: BRAND_COLORS.info,
     backgroundColor: BRAND_COLORS.surfaceSoft,
-    justifyContent: "center",
     paddingHorizontal: 16,
     marginBottom: 20,
-  },
-  searchPlaceholder: {
-    color: BRAND_COLORS.mutedText,
-    fontSize: 14,
+    color: BRAND_COLORS.text,
   },
   faqList: {
     gap: 8,
@@ -156,8 +173,14 @@ const styles = StyleSheet.create({
   },
   faqChevron: {
     color: BRAND_COLORS.text,
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 20,
-    marginTop: -2,
+    marginTop: -1,
+  },
+  emptyText: {
+    color: BRAND_COLORS.mutedText,
+    fontSize: 14,
+    textAlign: "center",
+    paddingVertical: 16,
   },
 });

@@ -28,20 +28,35 @@ export function ReservationEntryRow({
           : BRAND_COLORS.info;
 
   return (
-    <TouchableOpacity style={styles.row} activeOpacity={0.86} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.row}
+      activeOpacity={0.86}
+      onPress={onPress}
+      disabled={!onPress}
+      accessibilityRole={onPress ? "button" : undefined}
+      accessibilityLabel={`${title}, ${time}, ${status}, ${date}`}
+    >
       <View style={styles.iconWrap}>
         <Text style={styles.iconText}>R</Text>
       </View>
 
       <View style={styles.mainBlock}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.time}>{time}</Text>
+        <Text style={styles.title} numberOfLines={1}>
+          {title}
+        </Text>
+        <Text style={styles.time} numberOfLines={1}>
+          {time}
+        </Text>
       </View>
 
       <View style={styles.divider} />
-      <Text style={[styles.status, { color: statusColor }]}>{status}</Text>
+      <Text style={[styles.status, { color: statusColor }]} numberOfLines={2}>
+        {status}
+      </Text>
       <View style={styles.divider} />
-      <Text style={styles.date}>{date}</Text>
+      <Text style={styles.date} numberOfLines={1}>
+        {date}
+      </Text>
     </TouchableOpacity>
   );
 }
@@ -52,6 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 8,
+    paddingVertical: 4,
   },
   iconWrap: {
     width: 58,
@@ -68,7 +84,8 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   mainBlock: {
-    width: 108,
+    flex: 1.15,
+    minWidth: 0,
   },
   title: {
     color: BRAND_COLORS.text,
@@ -88,12 +105,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   status: {
-    width: 84,
+    flex: 0.85,
+    minWidth: 72,
     fontSize: 14,
     fontWeight: "700",
   },
   date: {
-    flex: 1,
+    flex: 0.95,
     color: BRAND_COLORS.info,
     fontSize: 17,
     fontWeight: "500",

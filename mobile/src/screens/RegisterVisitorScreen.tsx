@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { BRAND_COLORS } from "../assets/branding";
 import { CondoBottomNav, CondoBottomTab } from "../components/common/CondoBottomNav";
 import { CondoTopHeader } from "../components/common/CondoTopHeader";
@@ -19,15 +28,24 @@ export function RegisterVisitorScreen({
   const [date, setDate] = useState("13/03/2026");
   const [time, setTime] = useState("18:00");
   const [notes, setNotes] = useState("");
+  const canSubmit = name.trim().length > 0 && date.trim().length > 0 && time.trim().length > 0;
 
   return (
-    <View style={styles.screen}>
+    <KeyboardAvoidingView
+      style={styles.screen}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    >
       <View style={styles.headerArea}>
         <CondoTopHeader title="Cadastrar Visitantes" onBack={onGoBack} />
       </View>
 
       <View style={styles.panel}>
-        <View style={styles.formArea}>
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.formArea}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
           <Text style={styles.label}>Apelido do Visitante:</Text>
           <TextInput
             value={name}
@@ -73,14 +91,19 @@ export function RegisterVisitorScreen({
             placeholderTextColor={BRAND_COLORS.info}
           />
 
-          <TouchableOpacity style={styles.confirmButton} onPress={onConfirmVisit}>
+          <TouchableOpacity
+            style={[styles.confirmButton, !canSubmit && styles.confirmButtonDisabled]}
+            onPress={onConfirmVisit}
+            disabled={!canSubmit}
+            accessibilityRole="button"
+          >
             <Text style={styles.confirmButtonText}>Confirmar Visita!</Text>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
 
         <CondoBottomNav active="center" onPressTab={onPressTab} />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -99,10 +122,13 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 60,
     overflow: "hidden",
   },
-  formArea: {
+  scroll: {
     flex: 1,
+  },
+  formArea: {
     paddingHorizontal: 26,
     paddingTop: 24,
+    paddingBottom: 12,
   },
   label: {
     color: BRAND_COLORS.text,
@@ -166,9 +192,10 @@ const styles = StyleSheet.create({
   },
   confirmButton: {
     alignSelf: "center",
-    minWidth: 220,
-    height: 52,
-    borderRadius: 26,
+    width: "100%",
+    maxWidth: 320,
+    height: 50,
+    borderRadius: 25,
     backgroundColor: BRAND_COLORS.info,
     alignItems: "center",
     justifyContent: "center",
@@ -177,5 +204,8 @@ const styles = StyleSheet.create({
     color: BRAND_COLORS.white,
     fontSize: 17,
     fontWeight: "700",
+  },
+  confirmButtonDisabled: {
+    opacity: 0.5,
   },
 });

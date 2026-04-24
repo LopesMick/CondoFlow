@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+﻿import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { BRAND_COLORS } from "../assets/branding";
 import { CondoBottomNav, CondoBottomTab } from "../components/common/CondoBottomNav";
 import { CondoTopHeader } from "../components/common/CondoTopHeader";
@@ -21,7 +21,7 @@ interface BillItem {
 const billItems: BillItem[] = [
   {
     id: "mar",
-    month: "Março",
+    month: "Marco",
     date: "Pendente",
     status: "A Vencer",
     statusTone: "pending",
@@ -62,7 +62,7 @@ export function FinanceResidentScreen({ onGoBack, onPressTab }: FinanceResidentS
 
         <View style={styles.summaryRow}>
           <View style={styles.summaryCard}>
-            <Text style={styles.summaryIcon}>{"^"}</Text>
+            <Text style={styles.summaryIcon}>↑</Text>
             <Text style={styles.summaryLabelPositive}>Pagas</Text>
             <Text style={styles.summaryValuePositive}>R$500,00</Text>
           </View>
@@ -70,7 +70,7 @@ export function FinanceResidentScreen({ onGoBack, onPressTab }: FinanceResidentS
           <View style={styles.summaryDivider} />
 
           <View style={styles.summaryCard}>
-            <Text style={styles.summaryIcon}>{"v"}</Text>
+            <Text style={styles.summaryIcon}>↓</Text>
             <Text style={styles.summaryLabelNegative}>Vencidas</Text>
             <Text style={styles.summaryValueNegative}>R$250,00</Text>
           </View>
@@ -78,7 +78,7 @@ export function FinanceResidentScreen({ onGoBack, onPressTab }: FinanceResidentS
       </View>
 
       <View style={styles.panel}>
-        <TouchableOpacity style={styles.calendarButton}>
+        <TouchableOpacity style={styles.calendarButton} accessibilityRole="button">
           <Text style={styles.calendarIcon}>C</Text>
         </TouchableOpacity>
 
@@ -106,21 +106,32 @@ function BillRow({ item }: { item: BillItem }) {
         : BRAND_COLORS.success;
 
   return (
-    <TouchableOpacity style={styles.row} activeOpacity={0.86}>
+    <TouchableOpacity
+      style={styles.row}
+      activeOpacity={0.86}
+      accessibilityRole="button"
+      accessibilityLabel={`Condominio, ${item.date}, ${item.status}, ${item.amount}`}
+    >
       <View style={styles.billIcon}>
         <Text style={styles.billIconText}>$</Text>
       </View>
 
       <View style={styles.billMain}>
-        <Text style={styles.billTitle}>Condomínio</Text>
-        <Text style={styles.billDate}>{item.date}</Text>
+        <Text style={styles.billTitle} numberOfLines={1}>
+          Condominio
+        </Text>
+        <Text style={styles.billDate} numberOfLines={1}>
+          {item.date}
+        </Text>
       </View>
 
       <View style={styles.divider} />
-      <Text style={[styles.billStatus, { color: statusColor }]}>{item.status}</Text>
+      <Text style={[styles.billStatus, { color: statusColor }]} numberOfLines={2}>
+        {item.status}
+      </Text>
       <View style={styles.divider} />
 
-      <Text style={styles.billAmount}>
+      <Text style={styles.billAmount} numberOfLines={1}>
         {item.amount} {item.withArrow ? ">" : ""}
       </Text>
     </TouchableOpacity>
@@ -229,6 +240,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 8,
+    paddingVertical: 4,
   },
   billIcon: {
     width: 58,
@@ -245,7 +257,8 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   billMain: {
-    width: 112,
+    flex: 1.15,
+    minWidth: 0,
   },
   billTitle: {
     color: BRAND_COLORS.text,
@@ -265,14 +278,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 14,
   },
   billStatus: {
-    width: 74,
+    flex: 0.84,
+    minWidth: 70,
     fontSize: 14,
     fontWeight: "500",
   },
   billAmount: {
-    flex: 1,
+    flex: 0.95,
     color: BRAND_COLORS.text,
     fontSize: 16,
     fontWeight: "600",
+    textAlign: "right",
   },
 });

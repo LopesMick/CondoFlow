@@ -15,25 +15,25 @@ const SIZE_PRESETS: Record<
   { shieldWidth: number; shieldHeight: number; wordmarkWidth: number; wordmarkHeight: number; gap: number }
 > = {
   login: {
-    shieldWidth: 66,
-    shieldHeight: 72,
-    wordmarkWidth: 192,
-    wordmarkHeight: 62,
-    gap: 10,
+    shieldWidth: 80,
+    shieldHeight: 116,
+    wordmarkWidth: 224,
+    wordmarkHeight: 74,
+    gap: 8,
   },
   home: {
-    shieldWidth: 76,
-    shieldHeight: 84,
-    wordmarkWidth: 216,
-    wordmarkHeight: 68,
-    gap: 12,
+    shieldWidth: 84,
+    shieldHeight: 122,
+    wordmarkWidth: 252,
+    wordmarkHeight: 84,
+    gap: 8,
   },
   splash: {
-    shieldWidth: 126,
-    shieldHeight: 138,
-    wordmarkWidth: 246,
-    wordmarkHeight: 80,
-    gap: 14,
+    shieldWidth: 116,
+    shieldHeight: 168,
+    wordmarkWidth: 286,
+    wordmarkHeight: 96,
+    gap: 12,
   },
 };
 
